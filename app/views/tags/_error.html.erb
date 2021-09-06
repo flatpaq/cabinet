@@ -1,0 +1,7 @@
+<% if tag.errors.present? %>
+  <ul id="add-tag-error-explanation">
+    <% tag.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>

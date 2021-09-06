@@ -1,0 +1,23 @@
+<% content_for :breadcrumbs do %>
+  <li>
+    <%= link_to(articles_path) do %>
+    記事一覧
+    <% end %>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+    </svg>
+  </li>
+  <li><%= @article.title %></li>
+<% end %>
+
+<div class="article-edit content-wrapper">
+
+  <% @heading_text = "記事の編集" %>
+
+  <%= render partial: 'form', locals: { article: @article, heading_text: @heading_text } %>
+
+  <%# 変更履歴のリストをeditに表示, リンクを押すとAjaxで内容が閲覧できる %>
+  <%# 過去の変更履歴に戻すボタンを押すと、該当の記事の内容がhistoryの内容に置き換わる %>
+  <%#= render partial: 'histories', locals: { histories: @histories } %>
+
+</div>

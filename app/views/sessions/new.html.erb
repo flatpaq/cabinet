@@ -1,0 +1,17 @@
+<h1>ログイン</h1>
+
+
+<%= form_with(scope: :session, local: true, class: 'form') do |f| %>
+
+
+  <%= f.label :email %>
+  <%= f.text_field :email, class: 'form', id: 'session-email' %>
+
+
+  <%= f.label :password, 'パスワード' %>
+  <%= f.password_field :password, class: 'form', id: 'session-password' %>
+
+
+  <%= f.submit 'ログイン', class: 'btn btn-radius' %>
+
+<% end %>

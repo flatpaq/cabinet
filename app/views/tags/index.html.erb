@@ -1,0 +1,98 @@
+<% content_for :breadcrumbs do %>
+  <li>タグ</li>
+<% end %>
+
+<div class="content-wrapper">
+
+<div class="page-heading-wrapper tags-index row nopad align-top">
+
+  <div class="page-heading col">
+    <h1>タグ</h1>
+  </div>
+
+  <div class="add-article col-auto">
+
+    <div class="row-nocol just-end-lg">
+      <p><%= link_to(new_tag_path, class: 'btn') do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag" viewBox="0 0 16 16">
+        <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
+        <path d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
+        </svg>タグの作成
+      <% end %></p>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<% if @tags %>
+
+  <% @tags.each do |tag| %>
+
+  <div class="tag-index">
+    <div class="tag-heading row align-top">
+
+      <div class="tag-label col-lg">
+        <h1><%= link_to(tag.label, tag_path(tag)) %></h1>
+      </div>
+
+      <div class="tag-operation-area col-lg-auto">  
+        <div class="row-nocol just-end-lg">
+
+          <%= link_to(edit_tag_path(tag), class: 'edit') do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+            </svg>編集
+          <% end %>
+
+          <%= link_to(tag, method: :delete, data: { confirm: "#{tag.label}タグを削除します。よろしいですか？"}, class: 'delete') do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>削除
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="tag-aside-area row align-top">
+
+      <p class="tag-slug col-lg"><%= link_to(tag.slug, tag_path(tag)) %></p>
+
+      <%# 編集権限 edit_permit %>
+      <%# 現状編集権限は機能してないため、user_idを追加する? %>
+      <%# selectedの場合、中間テーブルも作成する必要あり %>
+      <%# selectedタグの編集のわりにはややこしいのでなくしたほうがよさそう %>
+      <div class="tag-edit-permit-area col-lg-auto">
+
+        <% if tag.any? %>
+          <p class="tag-edit-permit-status any-indication"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+          <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+          </svg>誰でも編集可能</p>
+
+        <%# elsif tag.self? %>
+        <%# elsif tag.selected? %>
+
+        <% end %>
+      </div>
+      
+      <%# タグの作成更新日必要? %>
+      <%#= l tag.created_at, format: :short %>
+      <%#= l tag.updated_at, format: :short %>
+    </div>
+
+  </div>  
+  <% end %>
+
+  <%# ページネーション %>
+  <%= paginate @tags %>
+
+
+<% end %>
+
+</div>

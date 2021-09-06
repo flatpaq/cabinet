@@ -1,0 +1,2 @@
+
+document.querySelector("#liked-article-<%= @article.id %>").innerHTML = "<%= escape_javascript(render partial: 'likes/like', locals: { article: @article }) %>";

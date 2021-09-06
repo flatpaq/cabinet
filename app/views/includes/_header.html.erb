@@ -1,0 +1,136 @@
+<header class="desktop-header">
+
+  <div class="row align-middle">
+
+    <div class="sidebar-menu-toggle-btn col-lg-auto row-nocol align-middle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+    </div>
+
+
+    <nav class="breadcrumbs col-lg">
+      <ol class="breadcrumb row-nocol align-middle">
+        <%= yield :breadcrumbs %>
+      </ol>
+    </nav>
+    
+    <nav class="user-nav col-lg-auto">
+      <div class="row-nocol just-end-lg">
+
+        <div class="header-menu-wrapper">
+
+          <% if current_user %>
+
+            <div class="header-menu-user row-nocol align-middle">
+
+              <% if current_user.user_image.attached? %>
+                <%= image_tag current_user.user_image, class: 'header-current_user-image' %>
+              <% else %>
+                <%= image_tag 'default-user-icon.svg', class: 'header-current_user-image' %>
+              <% end %>
+
+              
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+              </svg>
+              
+            </div>
+
+            <div class="header-menu">
+
+              <div class="header-menu-user-info">
+                <%= link_to(current_user, class: 'mypage') do %>
+                  <%= current_user.name %><br>
+                  &#64;<%= current_user.name_id %>
+                <% end %>
+              </div>
+
+
+              <div class="header-menu-mypage">
+                <%= link_to(current_user, class: 'mypage') do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
+                  <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+                  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                  </svg>マイページ
+                <% end %>
+              </div>
+
+
+              <div class="header-menu-drafts">
+                <%= link_to(drafts_articles_path, class: "drafts") do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
+                  <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+                  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                  </svg>下書き
+                <% end %>
+              </div>
+
+              <div class="header-menu-deleted">
+                <%= link_to(deleted_articles_path, class: "deleted") do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                  </svg>ゴミ箱
+                <% end %>
+              </div>
+          
+              <div class="header-menu-logout">
+                <%= link_to(logout_path, method: :delete, class: '') do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+                  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+                  <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"/>
+                  </svg>ログアウト
+                <% end %>
+              </div>
+
+
+            </div><%# header-menu %>
+
+          <% else %>
+            <div><%= link_to('ログイン', login_path, class: '') %></div>
+          <% end %>
+
+
+        </div><%# header-menu-wrapper %>
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+<%# モバイルヘッダー %>
+<header class="mobile-header display-none-lg">
+
+  <div class="row align-middle just-center">
+
+    <button class="mobile-sidebar-button row-nocol align-middle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+    </button>
+
+    <div class="mobile-logo col-auto">
+      <h1 class="logo">
+        <%= link_to(root_path) do %>
+          <%= image_tag 'logo-mobile.svg' %>
+        <% end %>
+      </h1>
+    </div>
+
+  </div>
+
+</header>
+
+
+<div class="mobile-breadcrumbs-area display-none-lg">
+  <nav class="breadcrumbs">
+    <ol class="breadcrumb">
+      <%= yield :breadcrumbs %>
+    </ol>
+  </nav>
+</div>
+

@@ -1,0 +1,7 @@
+document.querySelector("#tag-select-area").innerHTML = "<%= escape_javascript(render partial: 'tags/checklist', locals: { article: @article }) %>";
+
+document.querySelector("#tag-add-form").innerHTML = "<%= escape_javascript(render partial: 'tags/add', locals: { tag: @tag }) %>";
+
+<%# if errors %>
+document.querySelector("#add-tag-error-area").innerHTML = "<%= escape_javascript(render partial: 'tags/error', locals: { tag: @tag }) %>";
+

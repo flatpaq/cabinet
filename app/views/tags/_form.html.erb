@@ -1,0 +1,34 @@
+<% if tag.errors.present? %>
+  <ul id="error-explanation">
+    <% tag.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: tag, local: true, class: 'form') do |f| %>
+
+  <%= f.label :slug %>
+  <%= f.text_field :slug, class: 'form' %>
+
+  <%= f.label :label %>
+  <%= f.text_field :label, class: 'form' %>
+
+  <%= f.label :edit_permit, class: 'radio', value: 'self' do %>
+    <%= f.radio_button :edit_permit, :self %>
+    <span>作成者のみ編集可能</span>
+  <% end %>
+
+  <%= f.label :edit_permit, class: 'radio', value: 'any' do %>
+    <%= f.radio_button :edit_permit, :any %>
+    <span>誰でも編集可能</span>
+  <% end %>
+
+  <%= f.label :edit_permit, class: 'radio', value: 'selected' do %>
+    <%= f.radio_button :edit_permit, :selected %>
+    <span>編集者を限定する</span>
+  <% end %>
+
+  <%= f.submit nil, class: 'btn' %>
+
+<% end %>

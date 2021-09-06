@@ -1,0 +1,301 @@
+
+<div class="article-info-are">
+
+  <div class="content-wrapper article-info">
+
+    <div class="page-heading-wrapper articles-show row nopad align-top">
+
+      <div class="page-heading col-lg">
+        <h1><%= @article.title %></h1>
+      </div>
+
+      <%# 編集削除ボタン %>
+      <div class="article-operation-area col-lg-auto">
+        <div class="row-nocol just-end">
+          <% if @article.user_id == current_user.id && @article.garbage == false %>
+            
+            <%= link_to(edit_article_path(@article), class: 'edit show btn btn-radius border') do %> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+              <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+              </svg>編集
+            <% end %>
+
+
+            <% unless current_page?(root_path) || @article.id == 1 %>
+
+              <%= link_to(disposal_article_path(@article), method: :post, data: { confirm: "この記事#{@article.title}を削除します。よろしいですか？"}, class: 'delete show btn btn-radius border') do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                </svg>削除
+              <% end %>
+
+            <% end %>
+      
+          <% elsif @article.user_id == current_user.id && @article.garbage == true %>
+
+            <%= link_to(restore_article_path(@article), method: :post, data: { confirm: "この記事#{@article.title}を復元します。よろしいですか？"}, class: 'btn show btn-radius border') do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-recycle" viewBox="0 0 16 16">
+              <path d="M9.302 1.256a1.5 1.5 0 0 0-2.604 0l-1.704 2.98a.5.5 0 0 0 .869.497l1.703-2.981a.5.5 0 0 1 .868 0l2.54 4.444-1.256-.337a.5.5 0 1 0-.26.966l2.415.647a.5.5 0 0 0 .613-.353l.647-2.415a.5.5 0 1 0-.966-.259l-.333 1.242-2.532-4.431zM2.973 7.773l-1.255.337a.5.5 0 1 1-.26-.966l2.416-.647a.5.5 0 0 1 .612.353l.647 2.415a.5.5 0 0 1-.966.259l-.333-1.242-2.545 4.454a.5.5 0 0 0 .434.748H5a.5.5 0 0 1 0 1H1.723A1.5 1.5 0 0 1 .421 12.24l2.552-4.467zm10.89 1.463a.5.5 0 1 0-.868.496l1.716 3.004a.5.5 0 0 1-.434.748h-5.57l.647-.646a.5.5 0 1 0-.708-.707l-1.5 1.5a.498.498 0 0 0 0 .707l1.5 1.5a.5.5 0 1 0 .708-.707l-.647-.647h5.57a1.5 1.5 0 0 0 1.302-2.244l-1.716-3.004z"/>
+              </svg>復元
+            <% end %>
+
+
+          <% elsif @article.any? %>
+            
+            <%= link_to(edit_article_path(@article), class: 'edit show btn btn-radius border') do %> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+              <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+              </svg>編集
+            <% end %>
+          
+          <% end %>
+
+          <% if current_user.admin? %>
+
+            <%#= link_to('完全に削除', @article, method: :delete, data: { confirm: "この記事#{@article.title}を完全に削除します。よろしいですか？"}, class: 'btn') %>
+        
+          <% end %>
+        </div>
+      </div>
+
+
+    </div><%# page-heading-wrapper %>
+
+
+
+    <%# ユーザー情報 %>
+    <% unless current_page?(root_path) || @article.id == 1 %>
+      <div class="user-info-area row align-top">
+    
+        <div class="user-info col-lg">
+          <% if @article.user.state? %>
+            <%= link_to(@article.user) do %>
+              <div class="enable-user row-nocol align-middle">
+
+                <% if @article.user.user_image.attached? %>
+                  <%= image_tag @article.user.user_image, class: 'user-image-index' %>
+                <% else %>
+                  <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+                <% end %>
+                
+                <div>
+                  <span class="user-name"><%= @article.user.name %></span>
+                  <span class="user-name-id">&#64;<%= @article.user.name_id %></span>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+
+            <div class="disable-user row-nocol align-middle">
+
+              <% if @article.user.user_image.attached? %>
+                <%= image_tag @article.user.user_image, class: 'user-image-index' %>
+              <% else %>
+                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+              <% end %>
+
+              <div>
+                <span class="user-name"><%= @article.user.name %></span>
+                <span class="user-name-id">&#64;<%= @article.user.name_id %></span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+
+
+
+
+        <%# 記事の種類によってバッジ表示 %>
+        <% if @article.garbage == true && @article.user_id == current_user.id %>
+          <div class="article-status deleted-indication col-lg-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>ごみ箱
+          </div>
+
+        <% end %>
+
+        <% if @article.closed? && @article.user_id == current_user.id %>
+          <div class="article-status draft-indication col-lg-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+            </svg>下書き
+          </div>
+
+        <%# elsif @article.limited? %>
+        <% end %>
+
+        <% if @article.any? %>
+          <div class="article-status any-indication col-lg-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+            </svg>誰でも編集可
+          </div>
+        <% end %>
+        <%# ------ %>
+      </div><%# user-info-area %>
+
+    <% end %>
+
+
+
+    <%# 作成更新日 %>
+    <div class="article-date show row-nocol">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+        </svg><%= l @article.created_at, format: :short %>作成</p>
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+        <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+      </svg><%= l @article.updated_at, format: :short %>更新</p>
+    </div>
+
+
+
+
+
+
+    <% unless current_page?(root_path) || @article.id == 1 %>
+
+      <%# いいねボタン %>
+      <%# showの画面だけ、n件のいいねと表示させて、誰がいいねしたかのリンク、クリックするとユーザー一覧、のちにAjaxにしたい %>
+
+      <%# if @article.opened? || @article.limited? %>
+        <div class="like show row-nocol align-middle">
+        
+          <%# if @article.likes.find_by(user_id: current_user.id, article_id: @article.id) %>
+          <% if current_user.already_liked?(@article.likes, current_user.id) %>
+
+            <%= render partial: 'likes/unlike', locals: { article: @article } %>
+
+          <% else %>
+
+            <%= render partial: 'likes/like', locals: { article: @article } %>
+
+          <% end %>
+
+          <%# 当記事をいいねしたユーザーを表示するリンク %>
+          <span class="liked_user_link"><%= link_to('いいねしたユーザーを見る', liked_user_article_path(@article))%></span>
+
+        </div>
+      <%# end %>
+
+
+
+      <%# タグ %>
+      <ul class="tags clearfix">
+        
+      <% @article.tags.each do |tag| %>
+        <li class="tag"><%= link_to(tag_path(tag)) do %>
+          <%= tag.label %>
+        <% end %></li>
+
+      <% end %>
+      </ul>
+
+    <% end %>
+
+
+  </div>
+</div>
+
+
+<%# コンテンツ %>
+<div class="article-main-area row nopad">
+
+  <aside class="col-lg-3 toc-sidebar order-lg-last">
+    <h1>目次</h1>
+    <div id="toc" class="content-wrapper toc-content">
+    </div>
+  </aside>
+
+  <div class="col-lg-9">
+    <div class="content-wrapper">
+      <article class="article-content"><%= simple_format(h(@article.content), {}, sanitize: false, wrapper_tag: "div") %></article>
+    </div>
+  </div>
+
+</div>
+
+
+<section class="histories-area content-wrapper">
+
+  <h1>更新履歴</h1>
+
+  <%# 変更履歴 %>
+  <% @histories.each do |history| %>
+    <div class="index-history row nopad align-middle">
+
+
+
+      <%# 過去に当記事を更新したことがあるしたユーザー %>
+      <%#= history.user.name %>
+
+
+      <div class="user-info col-lg">
+        <% if history.user.state? %>
+          <%= link_to(history.user) do %>
+            <div class="enabale-user row-nocol align-middle">
+
+              <% if history.user.user_image.attached? %>
+                <%= image_tag history.user.user_image, class: 'user-image-index' %>
+              <% else %>
+                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+              <% end %>
+              
+              <div>
+                <span class="user-name"><%= history.user.name %></span>
+                <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+              </div>
+            </div>
+          <% end %>
+
+        <% elsif history.user.state === false && current_user.admin? %>
+
+          <%= link_to(history.user) do %>
+
+            <div class="disable-user row-nocol align-middle">
+
+              <% if history.user.user_image.attached? %>
+                <%= image_tag history.user.user_image, class: 'user-image-index' %>
+              <% else %>
+                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+              <% end %>
+
+              <div>
+                <span class="user-name"><%= history.user.name %></span>
+                <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+              </div>
+            </div>
+
+          <% end %>
+
+        <% else %>
+
+          <div class="disable-user row-nocol align-middle">
+            
+            <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+            
+            <div>
+              <span class="user-name">無効なユーザーです</span>
+              <span class="user-name-id"></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <p class="updated-time col-lg-auto">
+        <%= l history.created_at %> 更新
+      </p>
+      
+    </div>
+
+  <% end %>
+
+</section>

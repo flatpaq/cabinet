@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cabinet</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'main', defer: true %>
+  </head>
+
+  <body class="login">
+
+  <div class="wrapper container-fluid">
+
+    <div class="row align-middle just-center">
+
+   
+      <div class="main col-lg-4">
+
+        <div class="logo-area">
+          <h1>
+            <%= image_tag 'logo.svg' %>
+          </h1>
+        </div>
+
+        <div class="content-wrapper">
+          <% if flash.present? %>
+            <% flash.each do |key, value| %>
+              <div class="window info <%= key %>"><%= value %></div>
+            <% end %>
+          <% end %>
+
+          <%= yield %>
+
+          
+        </div><!-- content end -->
+
+      </div><!-- main end -->
+
+    </div><!-- row end -->
+
+  </div><!-- wrapper end -->
+
+
+  </body>
+</html>

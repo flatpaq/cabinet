@@ -1,0 +1,157 @@
+<%= javascript_pack_tag 'article/form', defer: true %>
+
+<% if article.errors.present? %>
+  <div class="window alert">
+    <ul id="error-explanation">
+      <% article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: article, local: true, class: 'form') do |f| %>
+
+  <div class="page-heading-wrapper row nopad align-top">
+
+    <div class="page-heading col">
+      <h1><%= heading_text %></h1>
+    </div>
+
+    <div class="col-auto">
+
+      <div class="row-nocol just-end">
+        <%= f.submit nil, class: 'btn article-submit' %>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-lg-9">
+
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form' %>
+
+      <%= f.label :permalink %>
+      <%= f.text_field :permalink, class: 'form' %>
+
+      <%#= f.label :content %>
+      <%= f.text_area :content, class: 'form mde' %>
+
+
+    </div>
+
+
+    <div class="col-lg-3">
+
+      <% if @article.new_record? || (@article.user_id == current_user.id && @article.id != 1) %>
+      
+        <label>公開状態</label>
+        <section class="window form-group select-publish">
+          
+          <%= f.label :status, class: 'radio', value: 'closed' do %>
+            <%= f.radio_button :status, :closed %>
+            <span>下書き</span>
+          <% end %>
+
+          <%= f.label :status, class: 'radio', value: 'opened' do %>
+            <%= f.radio_button :status, :opened %>
+            <span>公開</span>
+          <% end %>
+
+          <%= f.label :status, class: 'radio', value: 'limited' do %>
+            <%= f.radio_button :status, :limited %>
+            <span>限定公開</span>
+          <% end %>
+        </section>
+
+        <label>編集権限</label>
+        <section class="window form-group select-editor">
+          <%= f.label :coedit_permit, class: 'radio', value: 'self' do %>
+            <%= f.radio_button :coedit_permit, :self %>
+            <span>自分のみ編集可</span>
+          <% end %>
+
+          <%= f.label :coedit_permit, class: 'radio', value: 'any' do %>
+            <%= f.radio_button :coedit_permit, :any %>
+            <span>誰でも編集可</span>
+          <% end %>
+
+          <%= f.label :coedit_permit, class: 'radio', value: 'selected' do %>
+            <%= f.radio_button :coedit_permit, :selected %>
+            <span>編集者を選択する</span>
+          <% end %>
+        </section>
+
+
+      <% end %>
+
+
+      <% if @article.id != 1 %>
+
+        <label>タグ</label>
+        <div class="window form-group select-tags">
+          <ul class="selected-tags-list">
+          
+          </ul>
+          <div class="add-tag-to-article btn btn-radius border">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>タグの編集
+          </div>
+        </div>
+
+      <% end %>
+
+
+      <% if @article.new_record? || (@article.user_id == current_user.id && @article.id != 1) %>
+
+        <label>ゴミ箱</label>
+        <section class="window form-group select-garbage">
+          <%= f.label :garbage, class: 'toggle' do %>
+            <%= f.check_box :garbage %>
+            <span>ゴミ箱に入れる</span>
+          <% end %>
+        </section>
+
+      <% end %>
+      
+
+    </div><%# col-3 end %>
+
+  </div><%# row end %>
+
+
+  <div class="tags-window-area">
+
+    <%# タグのチェックリスト %>
+    <%= render partial: 'tags/checklist', locals: { article: article } %>
+
+  </div><%# tags-window-area %>
+
+
+<% end %>
+
+
+
+<%
+=begin%>
+
+<%# タグ新規作成 レイアウトが難しいので一旦保留 %>
+<div class="add-tags-area">
+  <h2>タグを新規に作成するエリア</h2>
+
+  <%# エラー表示エリア %>
+  <div id="add-tag-error-area">
+  </div>
+
+  <%= render partial: 'tags/add', locals: { tag: @tag } %>
+</div>
+
+<%
+=end%>

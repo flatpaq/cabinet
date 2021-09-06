@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cabinet</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'main', defer: true %>
+  </head>
+
+  <body class="<%= controller.controller_name %>-<%= controller.action_name %>">
+
+  <div class="shadow-wrapper"></div>
+
+  <div class="wrapper container-fluid">
+
+  <div class="mobile-sidebar-close-button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+      <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+    </svg>
+  </div>
+
+    <div class="row">
+
+
+      <%# col-sm-2 %>
+      <aside class="sidebar col-lg-auto">
+        <%= render 'includes/sidebar-menu' %>
+      </aside><!-- sidebar end -->
+    
+      <%#  col-sm-10 %>
+      <div class="main col-lg">
+        <!-- header partial including -->
+        <%= render 'includes/header' %>
+
+        <% if flash.present? %>
+        <div class="content-wrapper flash">
+          <% flash.each do |key, value| %>
+            <div class="window info <%= key %>"><%= value %></div>
+          <% end %>
+        </div><!-- content-wrapper end -->
+        <% end %>
+        
+
+        <%= yield %>
+
+          
+        
+
+      </div><!-- main end -->
+
+    </div><!-- row end -->
+
+
+    <%= render 'includes/footer' %>
+
+
+      
+
+  </div><!-- wrapper end -->
+
+
+  </body>
+</html>
