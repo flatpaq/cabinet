@@ -1,0 +1,1182 @@
+@import "variables";
+
+// if printed
+@media print {
+  body {
+    zoom: 0.68;
+    -webkit-print-color-adjust: exact;
+  }
+
+}
+
+.wrapper {
+  position: relative;
+  background: $white-color;
+}
+
+
+.over-text {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  // width: 400px;
+  text-overflow: ellipsis;
+}
+
+.shadow-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0px;
+  left: 0px;
+  z-index: 200;
+  display: none;
+  &.active {
+    display: block;
+    backdrop-filter: blur(2px);
+  }
+  &.open {
+    display: block;
+    background: transparent;
+  }
+}
+
+.mobile-sidebar-close-button {
+  position: sticky;
+  text-align: right;
+  top: 16px;
+  right: 16px;
+  z-index: 300;
+  display: none;
+
+  svg.bi {
+    width: 48px;
+    height: 48px;
+    margin: 0px;
+    color: $white-color;
+    // background: rgba(255, 255, 255, 0.8);
+    padding: 8px;
+    border-radius: 50%;
+  }
+
+  &.active {
+    display: block;
+  }
+
+  @include lg {
+    display: none;
+  }
+
+}
+
+.mobile-user-menu-button.open svg.bi {
+  transition: 0.4s;
+}
+.mobile-user-menu-button.open svg.bi {
+  transform: rotate(45deg);
+}
+
+.login {
+  background: $background-color;
+  background: $border-color;
+  input#session-email, input#session-password {
+    background: $gray-color;
+  }
+}
+
+.login > .wrapper {
+  background: transparent;
+}
+
+.login .row {
+  min-height: 100vh;
+  padding: 32px;
+}
+.login .content-wrapper {
+  background: $white-color;
+  @include radius-amount;
+}
+.login h1 {
+  line-height: 1;
+}
+.login .btn {
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 8px 12px;
+}
+
+.flash .window {
+  margin-bottom: 0px;
+}
+
+// iconのレイアウト調整
+.bi {
+  position: relative;
+  top: -3px;
+  margin-right: 8px;
+  // margin-right: 12px;
+  // font-size: 120%;
+  font-size: 100%;
+  display: inline-block;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+
+svg.bi {
+  position: relative;
+  top: 0px;
+  margin-right: 8px;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.125em;
+}
+
+header.desktop-header {
+  padding: 16px 24px;
+  background: $white-color;
+  border-bottom: 1px solid $border-color;
+  @include small-font-size;
+
+  display: none;
+  @include lg {
+    display: block;
+  }
+
+  .user-nav {
+    @include lg {
+      // width: 50%;
+    }
+    
+    margin-left: auto;
+
+    a {
+      color: $primary-color;
+      @include plain-link;
+    }
+
+    .header-menu-logout a {
+      color: $alert-color;
+    }
+
+  }
+
+  img.header-current_user-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #1a2e44;
+    display: inline-block;
+  }
+
+  .sidebar-menu-toggle-btn {
+    cursor: pointer;
+  }
+
+  ol.breadcrumb .sidebar-menu-toggle-btn {
+    margin-right: 24px;
+    cursor: pointer;
+  }
+
+  .sidebar-menu-toggle-btn svg.bi {
+    width: 1.8em;
+    height: 1.8em;
+    margin: 0px;
+  }
+
+  .header-menu {
+    display: none;
+    position: absolute;
+    background: $white-color;
+    z-index: 300;
+    @include radius-amount;
+    top: 32px;
+    right: 24px;
+    width: 220px;
+    box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.1);
+  }
+  .header-menu.open {
+    display: block;
+  }
+
+  .header-menu-wrapper {
+    position: relative;
+  }
+
+  .header-menu-user {
+    cursor: pointer;
+    // position: relative;
+  }
+  .header-menu-user .bi {
+    margin: 0px 0px 0px 8px;
+  }
+
+  .header-menu.open > div {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ececec;
+  }
+
+  .header-menu.open > div:last-child {
+    border: none;
+  }
+  
+}
+
+
+header.mobile-header {
+  padding: 12px 24px;
+  position: sticky;
+  top: 0px;
+  background: $white-color;
+  z-index: 100;
+  border-bottom: 1px solid $border-color;
+
+  .mobile-logo img {
+    width: 32px;
+  }
+
+  .mobile-sidebar-button {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    svg.bi {
+      width: 1.8em;
+      height: 1.8em;
+      margin: 0px;
+    }
+  
+  }
+  
+
+}
+.mobile-breadcrumbs-area {
+  padding: 24px 24px 0px;
+}
+
+
+
+.content-wrapper {
+  padding: 32px 24px;
+
+  &.flash {
+    padding-bottom: 0px;
+  }
+
+}
+
+@include lg {
+
+  .wrapper > .row {
+    transition: margin-left 0.4s;
+
+    &.close-sidebar {
+      // margin-left: -236px;
+      margin-left: calc( -1 * ( #{$sidebar-width} + 16px ) );
+    }
+    
+  }
+
+}
+
+.sidebar {
+  // background: $background-color;  
+  background: $border-color;
+  padding: 0px;
+  height: auto;
+  left: -100%;
+  top: 0%;
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: calc(#{$sidebar-width} + 64px);
+  z-index: 300;
+  transition: left 0.4s;
+  border-radius: 0px 0px 7px 0px;
+
+  @include lg {
+    z-index: 5;
+    min-height: 100vh;
+    position: relative;
+    overflow: visible;
+    left: 0%;
+    width: $sidebar-width;
+    border-radius: 0px;
+  }
+
+  &.active {
+    left: 0%;
+  }
+
+  .sidebar-menu {
+
+    @include lg {
+      position: sticky;
+      top: 0px;  
+    }
+
+  }
+
+  h1.logo {
+    color: $white-color;
+    margin: 0px;
+    padding: 16px;
+    padding: 24px;
+
+    img {
+      margin: 0px;
+    }
+  }
+
+  .mobile-user-menu-area {
+    background: $background-color;
+  }
+
+  .mobile-user-menu-info {
+    padding: 12px 24px;
+    color: $white-color;
+  }
+  .mobile-user-menu-info * {
+    margin-bottom: 0px;
+  }
+  .mobile-user-menu {
+    display: none;
+    // transition: all 0.4s;
+    &.open {
+      display: block;
+    }
+  }
+  .mobile-user-menu a {
+    color: $white-color;
+    padding: 12px 24px;
+  }
+  .mobile-user-menu a.logout {
+    background: $alert-color;
+  }
+
+  a {
+    color: $sidebar-menu-color;
+    color: $primary-color;
+    // color: $secondary-color;
+    // color: $border-color;
+    @include plain-link;
+    display: block;
+    position: relative;
+    line-height: 1.4;
+
+    .bi {
+      margin-right: 12px;
+    }
+
+
+    &:hover, &.active {
+      background: rgba(255, 255, 255, 0.8);
+      // background: rgba(255, 255, 255, 0.1);
+      color: $accent-color;
+      // color: $white-color;
+    }
+
+    &.active:before {
+      content: "";
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      height: 100%;
+      width: 4px;
+      background: $accent-color;
+    }
+
+
+  }
+
+  .sidebar-menu h1.logo > a:hover {
+    background: transparent;
+  }
+
+  ul.sidebar-nav li {
+    // margin-right: 16px;
+    color: $white-color;
+
+    a {
+      padding: 12px 24px 12px 24px;
+    }
+    
+  }
+
+
+}
+
+
+
+
+.main {
+  padding: 0px;
+}
+
+
+// -------------------
+// Articles index page
+
+
+
+.search-area input.form {
+  margin: 0px;
+}
+
+
+.search-btn .bi.bi-search {
+  margin: 0px;
+  // font-size: 100%;
+}
+
+.page-heading-wrapper {
+  margin-bottom: 32px;
+}
+.page-heading *, .add-article * {
+  margin-bottom: 0px;
+}
+
+.page-heading {
+  margin-right: auto;
+  margin-bottom: 32px;
+  // margin-bottom: 0px;
+
+  .article-edit &, .article-new & {
+    margin-bottom: 0px;
+  }
+
+  .page-heading-wrapper.tags-index & {
+    margin-bottom: 0px;
+  }
+  
+
+  @include lg {
+    margin-bottom: 0px;
+  }
+
+  h1 {
+    line-height: 1.4;
+    @include lg {
+      line-height: 1.2;
+      padding-right: 12px;
+    }
+  }
+}
+
+.add-article {
+  @include lg {
+    margin-left: 32px;
+  }
+}
+
+.index-article {
+  // border: 1px solid $border-color;
+  // @include radius-amount;
+  // margin-bottom: 32px;
+  // color: $secondary-color;
+  @include index-box;
+
+  .article-head {
+    h1 {
+      margin-bottom: 16px;
+      @include lg {
+        margin-bottom: 0px;
+      }
+    }
+    padding: 16px 16px 0px;
+    @include lg {
+      margin-bottom: 16px;
+    } 
+  }
+
+  .article-aside-area {
+    background: $gray-color;
+    border-top: 1px solid $border-color;
+    padding: 8px 16px;
+    // @include small-font-size;
+    border-radius: 0px 0px 7px 7px;
+
+  }
+
+
+}
+
+.article-date > p {
+  // margin: 0px 0px 0px 16px;
+  margin: 0px;
+  color: $secondary-color;
+  @include small-font-size;
+}
+.show.article-date > p {
+  margin: 0px 16px 16px 0px;
+}
+
+.article-operation-area {
+
+  @include operation-area;
+  .index-article & a {
+    margin-bottom: 12px;
+    @include lg {
+      margin-bottom: 0px;
+    }
+  }
+
+}
+
+// User info
+.user-info {
+  padding: 0px 16px;
+  margin-bottom: 16px;
+
+  img.user-image-index {
+    display: block;
+    margin: 0px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: $background-color;
+    // float: left;
+    margin-right: 12px;
+  }
+
+  .user-name {
+    font-weight: 700;
+  }
+
+  .disable-user .user-name {
+    color: $secondary-color;
+  }
+
+  .user-name-id {
+    color: $secondary-color;
+    font-weight: 400;
+    @include small-font-size;
+    display: block;
+    line-height: 1.4;
+  }
+
+  a {
+    color: $primary-color;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .articles-show &, .articles-top_page & {
+    padding: 0px;
+  }
+
+}
+
+
+// Tags
+ul.tags {
+  list-style: none;
+  padding: 0px 16px;
+  @include very-small-font-size;
+  margin-bottom: 16px;
+
+  .articles-show &, .articles-top_page & {
+    padding: 0px;
+  }
+
+  .tag-icon {
+    float: left;
+  }
+  li {
+    float: left;
+    margin-right: 8px;
+  }
+
+  .tag a {
+    display: inline-block;
+    padding: 3px 12px;
+    background: #f2f3f3;
+    border-radius: 24px;
+    color: $secondary-color;
+    @include plain-link;
+  }
+
+}
+
+
+
+
+
+.like {
+  margin-right: auto;
+  @include small-font-size;
+}
+
+.like.show {
+  margin: 0px 0px 16px 0px;
+}
+
+.unlike-icon {
+  color: $secondary-color;
+}
+
+.like-icon {
+  color: $like-color;
+}
+
+.like-count {
+  color: $secondary-color;
+  // font-weight: 300;
+}
+
+
+// Pagination
+
+.pagination {
+
+  & > * {
+    background: $accent-color;
+    // padding: 8px 16px;
+    margin: 0px 8px 8px 0px;
+    @include radius-amount;
+    @include small-font-size;
+  }
+
+  a {
+    color: $white-color;
+    text-decoration: none;
+    padding: 8px 16px;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .page.current, .page.gap, .page.last, .page.next {
+    background: transparent;
+    border: 1px solid $border-color;
+    padding: 8px 16px;
+  }
+
+  .last .bi, .next .bi {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
+
+}
+
+
+
+
+
+// Article show page
+
+
+.article-main-area {
+  border-bottom: 1px solid $border-color;
+}
+
+.article-content {
+  // padding-top: 32px;
+
+  h1, h2, h3, h4, h5, h6 {
+    // TOCからリンクをクリックした際のヘッダーとの調整
+    // padding-top: 64px;
+    // margin-top: -64px;
+  }
+
+}
+
+.toc-sidebar {
+  background: $gray-color;
+  border-left: none;
+  border-bottom: 1px solid $border-color;
+
+  h1 {
+    font-size: 120%;
+    padding: 32px 24px 0px;
+    margin-bottom: 0px;
+  }
+
+  @include lg {
+    border-bottom: none;
+    border-left: 1px solid $border-color;
+  }
+
+  .toc-content {
+
+    @include lg {
+      position: sticky;
+      top: 0px;
+      overflow-y: scroll;
+      max-height: 100vh;  
+    }
+  }
+
+  a.toc-link.active {
+    color: $accent-color;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
+
+
+.article-info-are {
+  // margin: -32px -24px 0px;
+  border-bottom: 1px solid $border-color;
+}
+.article-info {
+  padding: 32px 24px 16px;
+}
+
+.article-status, .article-edit-permit-status {
+  @include status-indication;
+  @include very-small-font-size;
+
+  &.draft-indication {
+    background: $draft-color;
+  }
+
+  &.deleted-indication {
+    background: $alert-color;
+  }
+
+  &.any-indication {
+    background: $any-color;
+  }
+
+  margin: 0px 12px 16px 0px;
+
+  .index-article & {
+    margin: 0px 16px 16px 16px;
+  }
+  @include lg {
+    margin: 0px 0px 16px 12px;
+  }
+
+
+
+
+}
+
+
+.liked_user_link a {
+  @include plain-link;
+  color: $primary-color;
+  display: inline-block;
+  margin-left: 12px;
+  padding: 3px 16px;
+  background: $tag-color;
+  color: $secondary-color;
+  border-radius: 24px;
+  position: relative;
+  @include very-small-font-size;
+
+  &:before {
+    left: -17px;
+    top: 50%;
+    content: " ";
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    pointer-events: none;
+    margin-top: -12px;
+    border-style: solid;
+    border-image: initial;
+    border-color: transparent $tag-color transparent transparent;
+    border-width: 12px;
+  }
+
+}
+
+// toc
+.toc-content ol {
+  list-style: none;
+  // padding-left: 0px;
+  margin-bottom: 0px;
+}
+.toc-content > ol {
+  padding-left: 0px;
+}
+.toc-content a.toc-link {
+  @include plain-link;
+  color: $primary-color;
+  color: #516680;
+}
+
+
+// History show
+.index-history {
+  @include index-box;
+  padding: 16px;
+  .user-info {
+    margin: 0px;
+  }
+  .updated-time {
+    margin: 0px;
+  }
+}
+
+
+
+// Article form
+.CodeMirror {
+  height: 90vh !important;
+  overflow-y: scroll !important;
+  border: 1px solid $border-color !important;
+  &.CodeMirror-fullscreen {
+    height: auto !important;
+  }
+  .cm-string.cm-url {
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+    word-wrap : break-word !important;
+  }
+}
+
+.editor-preview pre, .editor-preview-side pre {
+  background: $background-color !important;
+}
+.editor-toolbar {
+  opacity: 1 !important;
+  border-top: 1px solid $border-color !important;
+  border-left: 1px solid $border-color !important;
+  border-right: 1px solid $border-color !important;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.btn.article-submit {
+  margin: 0px;
+}
+
+.window.form-group {
+  @include radius-amount;
+}
+.add-tag-to-article.btn.btn-radius.border {
+  padding: 6px 12px;
+}
+
+.tags-window-area {
+  display: none;
+  &.active {
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    display: block;
+    width: 80%;
+    height: 80%;
+    // width: 400px;
+    z-index: 300;
+    background: $white-color;
+    padding: 32px 24px;
+    overflow-y: scroll;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    @include radius-amount;
+
+  }
+
+  .tag-select-heading {
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    margin: 0px;
+  }
+  .tags-window-close-button svg {
+    font-size: 48px;
+    cursor: pointer;
+  }
+
+  #tag-select-area.row {
+    margin-left: -8px;
+    margin-right: -8px;
+
+    .col-lg-4 {
+      padding-left: 8px;
+      padding-right: 8px;
+      margin-bottom: 16px;
+    }
+
+  }
+
+  .tag-select-checkbox {
+    padding: 16px;
+    @include radius-amount;
+    background: $gray-color;
+    // margin-bottom: 16px;
+    height: 100%;
+
+      // &:hover {
+      //   background: $gray-color;
+      // }
+      label.checkbox {
+        margin: 0px;
+      }
+
+      .tag-slug {
+        // display: inline-block;
+        // display: inline;
+        margin-left: 8px;
+        padding: 4px 8px;
+        background: $tag-color;
+        @include very-small-font-size;
+        @include radius-amount;
+      }
+
+  }
+
+}
+
+// Tag page
+.tag-index {
+  @include index-box;
+  padding: 16px;
+  .btn {
+    margin: 0px;
+  }
+
+
+  .tag-slug {
+    margin-bottom: 12px;
+    @include lg {
+      margin-bottom: 0px;
+    }
+  }
+
+
+}
+
+.tag-operation-area {
+  @include operation-area;
+  .tag-index & a {
+    margin-bottom: 12px;
+    @include lg {
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.tag-edit-permit-status {
+
+  @include status-indication;
+  @include very-small-font-size;
+
+  &.any-indication {
+    background: $any-color;
+  }
+
+}
+
+.tag-heading {
+  margin-bottom: 0px;
+  @include lg {
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    margin-bottom: 12px;
+    @include lg {
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.tag-label h1 a:hover {
+  color: $accent-color;
+}
+
+.tag-slug, .tag-edit-permit-area > p {
+  margin: 0px;
+}
+.tag-slug a {
+  color: $primary-color;
+
+  &:hover {
+    color: $accent-color;
+    text-decoration: underline;
+  }
+  
+}
+
+// User page
+
+.add-user {
+  @include lg {
+    margin-left: 32px;
+  }
+
+  & * {
+    margin-bottom: 0px;
+  }
+
+}
+
+.index-user {
+  @include index-box;
+  padding: 16px;
+
+  .user-name {
+    margin-bottom: 4px;
+  }
+
+  .user-info img.user-image-index {
+    width: 50px;
+    height: 50px;
+  }
+
+  .user-introduction {
+    // padding: 0px 16px;
+    @include small-font-size;
+
+    p {
+      margin-bottom: 12px;
+      @include lg {
+        margin: 0px;
+      }
+    }
+  }
+
+  .user-operation-area {
+    @include operation-area;
+     a {
+      margin-bottom: 12px;
+      @include lg {
+        margin-bottom: 0px;
+      }
+    }
+  
+  }
+
+}
+
+.user-type {
+  @include status-indication;
+  @include very-small-font-size;
+
+  margin: 0px;
+  @include lg {
+    margin: 0px 0px 0px 12px;
+  }
+  
+  &.admin-indication {
+    background: $alert-color;
+  }
+  &.disable-indication {
+    background: $secondary-color;
+    background: $sidebar-menu-color;
+  }
+
+  .users-show &.show {
+    margin: 0px 0px 16px 0px;
+  }
+
+}
+
+.user-info-area {
+  padding: 0px 16px;
+}
+
+
+// User show
+.users-show {
+  // .user-head .user-info img.user-image-index {
+  //   width: 240px;
+  //   height: 240px;
+  // }
+
+  .user-head {
+    margin-bottom: 32px;
+  }
+
+
+  .user-name {
+    // margin-bottom: 16px;
+    margin-bottom: 4px; 
+  }
+  .user-name-id {
+    font-size: 112.5%;
+  }
+
+
+  .user-operation {
+    margin-bottom: 16px;
+  }
+
+
+}
+
+
+// TODO: 画角が崩れる
+.user-profile-image img {
+  max-width: 240px;
+  max-height: 240px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  display: block;
+  object-fit: cover;
+  background: $background-color;
+  margin: 0px 0px 32px;
+  @include lg {
+    margin: 0px;
+  }
+}
+
+.btn-radius.btn.border.user-profile-file-upload {
+  margin-bottom: 16px;
+}
+
+
+.user-operation-area {
+  @include operation-area;
+}
+
+.tab-wrapper {
+  margin: 0px -24px;
+}
+
+.tabs {
+  padding: 0px 24px;
+  border-bottom: 1px solid $border-color;
+  // margin-bottom: 32px;
+}
+
+.tab {
+  margin-bottom: 0px;
+  // border: 1px solid transparent;
+  border-bottom: 4px solid transparent;
+  padding: 12px 24px;
+  border-radius: 7px 7px 0px 0px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.tab.active {
+  // border: 1px solid $border-color;
+  border-bottom: 4px solid $accent-color;
+  // background: $gray-color;
+  color: $accent-color;
+  cursor: default;
+}
+
+.tab-contents-area {
+  padding: 32px 24px 0px;
+}
+
+.tab-contents-area > .tab-cont {
+  display: none;
+  transition: all 0.2s ease-in-out;
+}
+.tab-contents-area > .tab-cont.active {
+  display: block;
+}
+

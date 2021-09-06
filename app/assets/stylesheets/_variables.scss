@@ -1,0 +1,156 @@
+
+
+
+// サイドバーの背景色
+$background-color: #1a2e44;
+// $primary-color: #212529;
+
+// 文字色
+$primary-color: #1b2b3c;
+// $accent-color: #4c83ee;
+$secondary-color: #536471;
+
+// ボタンなどの色
+$accent-color: #4c9aee;
+
+// ボーダーなど縁取りの色
+// $border-color: #ccd5e0;
+$border-color: #d4dde8;
+
+// 下書き表示の色
+$draft-color: #00bfd8;
+
+// 誰でも編集可能の色
+$any-color: #ff9300;
+
+
+// サイドバーメニューの選択していない時の色
+$sidebar-menu-color: #a3abb4;
+
+// 白の背景色
+$white-color: #fefefe;
+
+// 灰色の背景色
+$gray-color: #f8fafa;
+
+// タグの色
+$tag-color: #f2f3f3;
+
+
+$like-color: #e0255e;
+
+// アラート色
+$alert-color: #ec6f6b;
+
+
+
+// #46a9ec
+
+
+// サイドバーの幅
+$sidebar-width: 220px;
+
+
+@mixin radius-amount {
+  border-radius: 7px;
+}
+
+@mixin small-font-size {
+  font-size: 93.75%;
+}
+
+@mixin very-small-font-size {
+  font-size: 87.5%;
+}
+
+@mixin index-box {
+  border: 1px solid $border-color;
+  @include radius-amount;
+  // padding: 16px;
+  margin-bottom: 32px;
+  color: $secondary-color;
+
+  h1 {
+    font-size: 175%;
+    margin: 0px;
+    a:not(.btn) {
+      color: $primary-color;
+      font-weight: 700;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    // color: $secondary-color;
+    font-weight: 400;
+  }
+
+
+}
+
+@mixin operation-area {
+  a {
+    color: $secondary-color;
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  a:first-of-type {
+    margin-right: 16px;
+  }
+  
+  .show.btn {
+    padding: 6px 12px;
+    margin-bottom: 0px;
+    &:first-of-type {
+      margin-right: 0px;
+    }
+    &:last-of-type {
+      margin-left: 16px;
+    }
+  }
+
+}
+
+@mixin plain-link {
+  text-decoration: none;
+  font-weight: normal; 
+}
+
+
+@mixin status-indication {
+  padding: 2px 8px;
+  border-radius: 7px;
+  color: $white-color;
+  margin: 0px 12px 16px 0px;
+  display: inline-block;
+  width: auto;
+}
+
+
+// responsive media query
+$xl: 1200px;
+$lg: 992px;
+$md: 768px;
+$sm: 576px; 
+
+@mixin xl {
+  @media (min-width: ($xl)) {
+    @content;
+  }
+}
+@mixin lg {
+  @media (min-width: ($lg)) {
+    @content;
+  }
+}
+@mixin md {
+  @media (min-width: ($md)) {
+    @content;
+  }
+}
+@mixin sm {
+  @media (min-width: ($sm)) {
+    @content;
+  }
+}
