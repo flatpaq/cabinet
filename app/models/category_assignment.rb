@@ -1,0 +1,2 @@
+class CategoryAssignment < ApplicationRecord
+end

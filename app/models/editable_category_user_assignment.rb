@@ -1,0 +1,2 @@
+class EditableCategoryUserAssignment < ApplicationRecord
+end

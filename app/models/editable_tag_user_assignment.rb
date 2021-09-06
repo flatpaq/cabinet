@@ -1,0 +1,2 @@
+class EditableTagUserAssignment < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class ReadableArticleGroupAssignment < ApplicationRecord
+end

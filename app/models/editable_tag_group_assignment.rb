@@ -1,0 +1,2 @@
+class EditableTagGroupAssignment < ApplicationRecord
+end

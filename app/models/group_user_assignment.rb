@@ -1,0 +1,2 @@
+class GroupUserAssignment < ApplicationRecord
+end

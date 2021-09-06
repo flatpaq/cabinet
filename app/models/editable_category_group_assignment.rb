@@ -1,0 +1,2 @@
+class EditableCategoryGroupAssignment < ApplicationRecord
+end

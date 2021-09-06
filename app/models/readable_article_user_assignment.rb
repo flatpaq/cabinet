@@ -1,0 +1,2 @@
+class ReadableArticleUserAssignment < ApplicationRecord
+end

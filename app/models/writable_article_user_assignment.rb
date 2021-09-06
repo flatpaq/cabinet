@@ -1,0 +1,2 @@
+class WritableArticleUserAssignment < ApplicationRecord
+end

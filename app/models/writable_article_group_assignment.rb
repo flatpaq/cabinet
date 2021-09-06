@@ -1,0 +1,2 @@
+class WritableArticleGroupAssignment < ApplicationRecord
+end
