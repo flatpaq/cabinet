@@ -35,14 +35,12 @@ class LikesController < ApplicationController
 
     article = Article.find_by(id: params[:article_id], status: 1, garbage: false)
 
-    if article && article.user_id == current_user.id && article.id != 1
-        @article = article    
-    elsif article && article.id != 1
-        @article = article
-    else
-      redirect_to root_url
+    if article.user_id == current_user.id && article.id != 1
+      @article = article    
+    elsif article.id != 1
+      @article = article
     end
-    redirect_to root_url unless @article
+
   end
 
 end

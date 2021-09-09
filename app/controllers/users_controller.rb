@@ -1,33 +1,10 @@
 class UsersController < ApplicationController
 
-
-  # -------------------
-  # パスワード再設定
-  # UserControllerじゃなくていいかもしれない
-  # これやめてDeviseに移行する
-  # Deviseはcurrent_user使える
-  # 不要なファイル消せば移行はスムーズにいけるはず
-  skip_before_action :login_required, only: :password_reset
-
-  def password_reset
-    user = User.find_by(email: email_reset_params[:email], state: true)
-    if user
-      # 時間制限あるPWリセットメールを送信する処理
-    end
-  end
-
-  # パスワード再設定用のストロングパラメーター
-  private def email_reset_params
-    params.require(:session).permit(:email)
-  end
-  # -------------------
-
-
   # 管理者でなければnew, create, disable, enableは行えない
   before_action :require_admin, only: [:new, :create, :disable, :enable]
 
   # 自分のアカウントのedit, updateは行える。他ユーザのedit, updateは行うことができないようにする
-  # カレントユーザが管理者であればedit, updateを行える
+  # カレントユーザが管理者であれば他ユーザーのedit, updateも行うことができる
   before_action :ensure_correct_user, only: [:edit, :update]
 
   # Ransackによる検索
@@ -57,8 +34,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # User.with_attached_user_imageかincludes({user_image_attachment: :blob})
-
   def show
     if current_user.admin?
       @user = User.find_by(name_id: params[:id])
@@ -66,37 +41,28 @@ class UsersController < ApplicationController
       @user = User.find_by(name_id: params[:id], state: true)
     end
 
-    if @user
-      # 各ユーザの記事一覧を出力
-      if @user.id == current_user.id
-        @articles = @user.articles
-          .where.not(id: 1)
-          .where(status: [0, 1, 2], garbage: false)
-          .includes(:tags, :likes)
-          .order(created_at: :desc)
-          .page(params[:page])
-
-        redirect_to root_url unless @articles
-      else
-        @articles = @user.articles
-          .where(status: 1, garbage: false)
-          .includes(:tags, :likes)
-          .order(created_at: :desc)
-          .page(params[:page])
-
-        redirect_to root_url unless @articles
-      end
-
-      # ユーザーがいいねした記事を出力する
-      # selectじゃなくてpluckのほうがいい?
-      likes = @user.likes.select(:article_id)
-      @liked_articles = Article
-        .where(id: likes, status: 1, garbage: false)
-        .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
-
+    # 各ユーザの記事一覧を出力
+    if @user.id == current_user.id
+      @articles = @user.articles
+        .where.not(id: 1)
+        .where(status: [0, 1, 2], garbage: false)
+        .includes(:tags, :likes)
+        .order(created_at: :desc)
+        .page(params[:page])
     else
-      redirect_to root_url
+      @articles = @user.articles
+        .where(status: 1, garbage: false)
+        .includes(:tags, :likes)
+        .order(created_at: :desc)
+        .page(params[:page])
     end
+
+    # ユーザーがいいねした記事を出力する
+    like_ids = @user.likes.pluck(:article_id)
+    @liked_articles = Article
+      .where(id: like_ids, status: 1, garbage: false)
+      .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
+      .page(params[:page])
 
   end
 
@@ -119,7 +85,7 @@ class UsersController < ApplicationController
 
   def update
 
-    # @user.user_image.purgeで古い画像を削除しておく?
+    # TODO: @user.user_image.purgeで古い画像を削除しておく?
 
     if current_user.admin?
       if @user.update(user_params_admin)
@@ -141,13 +107,12 @@ class UsersController < ApplicationController
 
   def disable
     @user = User.find_by(name_id: params[:id])
-    # 自分自身は無効化できないようにする?
-    # redirect_to users_url if @user.id == current_user.id
+    # TODO: 自分自身は無効化できないようにする?
     @user.state = false
     if @user.save
       redirect_to users_url, notice:  "#{@user.name}のユーザーアカウントを無効にしました。"
     else
-      redirect_to users_url
+      render :show 
     end
   end
 
@@ -157,7 +122,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to users_url, notice:  "#{@user.name}のユーザーアカウントを有効にしました。"
     else
-      redirect_to users_url
+      render :show
     end
   end
 
@@ -183,11 +148,8 @@ class UsersController < ApplicationController
 
   private def ensure_correct_user
     user = User.find_by(name_id: params[:id])
-    if user && (user.id == current_user.id || current_user.admin?)
+    if user.id == current_user.id || current_user.admin?
       @user = user
-      redirect_to root_url unless @user
-    else
-      redirect_to root_url
     end
   end
 

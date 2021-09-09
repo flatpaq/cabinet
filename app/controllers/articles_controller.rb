@@ -36,30 +36,26 @@ class ArticlesController < ApplicationController
 
   end
 
-
   def show
 
     article = Article.find_by(permalink: params[:id])
-    if article.nil?
-      redirect_to root_url
 
-    elsif article.user_id == current_user.id
+    if article.user_id == current_user.id
 
-      # @article = article でいけると思う
+      # NOTE: @article = article でいけると思う
       @article = current_user.articles.includes(:tags, :histories, :likes)
         .find_by(permalink: params[:id], status: [0, 1, 2])
       
     else
+    # NOTE: 以下2行で書き換えられそう
     # elsif article.opened? && article.garbage == false
-      # @article = article でいけると思う
+      # @article = article
 
       @article = Article.includes(:tags, :histories, :likes)
         .find_by(permalink: params[:id], status: 1, garbage: false)
 
     end
-
-    redirect_to root_url unless @article
-    # 変更履歴を出力
+ 
     @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
 
   end
@@ -95,7 +91,6 @@ class ArticlesController < ApplicationController
   def edit
     @tag = Tag.new
 
-    # 変更履歴を出力
     @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
   
   end
@@ -168,14 +163,13 @@ class ArticlesController < ApplicationController
   # 特定の記事をいいねしたユーザーを表示する
   def liked_user
     @article = Article.find_by(permalink: params[:id], status: 1, garbage: false)
-    redirect_to root_url unless @article
 
     liked_user_ids = @article.likes.pluck(:user_id)
 
-    @users =  User.where(id: liked_user_ids).includes({user_image_attachment: :blob})
+    @users = User.where(id: liked_user_ids).includes({user_image_attachment: :blob})
 
 
-    # HACK: 上記のコード2行で実現できるかも SQLリクエストも減る?
+    # NOTE: 上記のコード2行で実現できるかも SQLリクエストも減る?
     # liked_user_ids = Like.where(article_id: Article.find_by(permalink: params[:id], status: 1, garbage: false).select(:id)).pluck(:user_id)
     # @users =  User.where(id: liked_user_ids).includes({user_image_attachment: :blob})
     # -----
@@ -187,7 +181,6 @@ class ArticlesController < ApplicationController
     @articles = current_user.articles.where(status: 0, garbage: false)
       .order(created_at: :desc)
       .page(params[:page])
-    redirect_to root_url unless @articles
   end
 
   # カレントユーザの、ゴミ箱に入れた記事を出力する
@@ -195,7 +188,6 @@ class ArticlesController < ApplicationController
     @articles = current_user.articles.where(garbage: true)
       .order(created_at: :desc)
       .page(params[:page])
-    redirect_to root_url unless @articles
   end
 
   # 記事をゴミ箱に入れる
@@ -205,7 +197,7 @@ class ArticlesController < ApplicationController
       @article.save
       redirect_to articles_url, notice: "#{@article.title}を削除しました。"
     else
-      redirect_to root_url
+      render :show
     end
   end
 
@@ -216,7 +208,7 @@ class ArticlesController < ApplicationController
       @article.save
       redirect_to articles_url, notice: "#{@article.title}を復元しました。"
     else
-      redirect_to root_url
+      render :show
     end
   end
 
@@ -245,36 +237,27 @@ class ArticlesController < ApplicationController
   # 記事がゴミ箱に入っていると編集はできない
   private def edit_article_permit
     article = Article.find_by(permalink: params[:id], garbage: false)
-    if article && article.user_id == current_user.id
+    if article.user_id == current_user.id
       @article = article
-    elsif article && article.any? && article.opened?
+    elsif article.any? && article.opened?
       @article = article
-    else
-      redirect_to root_url
     end
-    redirect_to root_url unless @article
   end
 
-  # 管理者のみが記事を削除できるようにする
+  # 管理者のみが記事を完全に削除できるようにする
   private def destroy_article_permit
     article = Article.find_by(permalink: params[:id])
-    if article && current_user.admin? && article.id != 1
+    if current_user.admin? && article.id != 1
       @article = article
-    else
-      redirect_to root_url
     end
-    redirect_to root_url unless @article
   end
 
   # カレントユーザのみが記事をゴミ箱に入れたり復元したりできる
   private def garbage_article_permit
     article = Article.find_by(permalink: params[:id])
-    if article && article.user_id == current_user.id && article.id != 1
+    if article.user_id == current_user.id && article.id != 1
       @article = article
-    else
-      redirect_to root_url
     end
-    redirect_to root_url unless @article
   end
 
   private def set_q
