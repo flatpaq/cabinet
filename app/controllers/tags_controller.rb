@@ -1,5 +1,7 @@
 class TagsController < ApplicationController
 
+  before_action :edit_tag_permit, only: [:edit, :update]
+
   def index
     @tags = Tag.all.order(created_at: :desc).page(params[:page])
   end
@@ -44,11 +46,11 @@ class TagsController < ApplicationController
   end
 
   def edit
-    @tag = Tag.find_by(slug: params[:id])
+    # @tag = Tag.find_by(slug: params[:id])
   end
 
   def update
-    @tag = Tag.find_by(slug: params[:id])
+    # @tag = Tag.find_by(slug: params[:id])
     if @tag.update(tag_params)
       redirect_to tags_url, notice: "#{@tag.label}タグを更新しました。"
     else
@@ -64,6 +66,15 @@ class TagsController < ApplicationController
 
   private def tag_params 
     params.require(:tag).permit(:slug, :label, :edit_permit)
+  end
+
+  private def edit_tag_permit
+    tag = Tag.find_by(slug: params[:id])
+    if tag && tag.user_id == current_user.id
+      @tag = tag
+    elsif tag && tag.any?
+      @tag = tag
+    end
   end
 
 end

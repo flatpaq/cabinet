@@ -24,10 +24,17 @@
     <span>誰でも編集可能</span>
   <% end %>
 
+
+<%
+=begin%>
   <%= f.label :edit_permit, class: 'radio', value: 'selected' do %>
     <%= f.radio_button :edit_permit, :selected %>
     <span>編集者を限定する</span>
   <% end %>
+
+<%
+=end%>
+
 
   <%= f.submit nil, class: 'btn' %>
 

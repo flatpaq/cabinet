@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_083709) do
+ActiveRecord::Schema.define(version: 2021_09_09_021200) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -63,8 +63,10 @@ ActiveRecord::Schema.define(version: 2021_06_11_083709) do
     t.integer "edit_permit", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
     t.index ["ancestry"], name: "index_categories_on_ancestry"
     t.index ["slug", "ancestry"], name: "index_categories_on_slug_and_ancestry", unique: true
+    t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
   create_table "category_assignments", force: :cascade do |t|
@@ -185,8 +187,10 @@ ActiveRecord::Schema.define(version: 2021_06_11_083709) do
     t.integer "edit_permit", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
     t.index ["label"], name: "index_tags_on_label"
     t.index ["slug"], name: "index_tags_on_slug", unique: true
+    t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

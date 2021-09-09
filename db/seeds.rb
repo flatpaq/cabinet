@@ -25,7 +25,8 @@ end
   Tag.create!(
     slug: "tag#{n+1}",
     label: "タグその#{n + 1}",
-    edit_permit: 0
+    edit_permit: 0,
+    user_id: n + 1
   )
 end
 
