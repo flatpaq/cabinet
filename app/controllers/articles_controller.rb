@@ -12,9 +12,7 @@ class ArticlesController < ApplicationController
   # トップページ
   def top_page
     @article = Article.first
-    redirect_to root_url unless @article
-    # 変更履歴を出力
-    @histories = @article.histories.includes(:user).order(created_at: :desc).limit(20)
+    @histories = @article.histories.includes(:user).order(created_at: :desc).limit(10)
   end
 
   def index
