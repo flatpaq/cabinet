@@ -60,16 +60,25 @@ function checkedCheck() {
 }
 
 // Tags Addアクションが成功したら
-document.addEventListener('ajax:success', function() {
+// document.addEventListener('ajax:success', function() {
 
 	// Ajax後に更新されたチェックボックス要素を再取得
-	checkboxes = document.getElementsByName('article[tag_ids][]');
+	// checkboxes = document.getElementsByName('article[tag_ids][]');
 
-	checkboxes.forEach(function(el) {
+	// checkboxes.forEach(function(el) {
 		// 一度全てのチェックを外す
-		el.checked = false;
+		// el.checked = false;
 
 	  // checkboxesのvalueと、checkedArrayに格納されているvalueが同じならチェックを入れる
+// 		if (checkedArray.indexOf(el.value) !== -1 ) {
+// 			el.checked = true;	
+// 		}
+
+// 	});
+
+// });
+
+
 // import Marked
 import marked from 'marked';
 
@@ -83,9 +92,46 @@ function markedRender() {
 
 }
 
-	});
+
+
+// --------------------------
+// Articles new, edit タグ選択画面の表示
+
+
+// body直下のdiv.wrapper
+
+const articleFormShadowWrapper = document.querySelector('.shadow-wrapper');
+
+// クローズボタン .tag-select-areaのなかに書く
+const closeButton = document.querySelector('.tags-window-close-button');
+
+// クリックするボタン
+const openButton = document.querySelector('.add-tag-to-article');
+
+// タグ選択エリア はじめは非表示にしておく
+const tagsWindowArea = document.querySelector('.tags-window-area');
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  // モーダルを開く
+  openButton.addEventListener('click', () => {
+    modalMenuOpen(tagsWindowArea);
+  });
+
+  // モーダルを閉じる
+  articleFormShadowWrapper.addEventListener('click', () => {
+    modalMenuClose(tagsWindowArea);
+  });
+
+  // クローズボタンを押した際もmodalMenuCloseが実行される
+  closeButton.addEventListener('click', () => {
+    modalMenuClose(tagsWindowArea);
+  });
 
 });
+// ---------------
+
 
 
 // Article edit Historyをモーダルウィンドウで表示する
