@@ -5,6 +5,9 @@ class ArticlesController < ApplicationController
   before_action :destroy_article_permit, only: [:destroy]
   before_action :garbage_article_permit, only: [:disposal, :restore]
 
+  # 更新履歴の確認、復元
+  before_action :edit_history_permit, only: [:history_view, :revert]
+
   # Ransackによる検索機能
   before_action :set_q, only: [:index, :show, :search]
 
@@ -68,7 +71,7 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
-    @tag = Tag.new
+    # @tag = Tag.new
   end
 
   def create
@@ -89,15 +92,56 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @tag = Tag.new
+    # @tag = Tag.new
 
-    @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
+    # @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
   
   end
 
+  def history_view
+  end
+  
   # 記事の内容を変更履歴から復元する場合
   def revert
-
+    @article.title = @history.title
+    @article.content = @history.content
+  
+    if @article.id == 1
+  
+      if @article.save
+  
+        @new_history = @article.histories.new(
+          user_id: current_user.id,
+          title: @article.title,
+          content: @article.content
+        )
+        @new_history.save
+  
+        redirect_to root_url, notice: "#{@article.title}の内容を復元しました。"
+  
+      else
+        render :edit
+      end
+  
+    else
+  
+      if @article.save
+  
+      @new_history = @article.histories.new(
+        user_id: current_user.id,
+        title: @article.title,
+        content: @article.content
+      )
+      @new_history.save
+  
+      redirect_to article_url(@article), notice: "#{@article.title}の内容を復元しました。"
+  
+      else
+        render :edit
+      end
+  
+    end
+  
   end
 
   # HACK: もう少し綺麗なコードにできると思う
@@ -239,8 +283,10 @@ class ArticlesController < ApplicationController
     article = Article.find_by(permalink: params[:id], garbage: false)
     if article.user_id == current_user.id
       @article = article
+      @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
     elsif article.any? && article.opened?
       @article = article
+      @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
     end
   end
 
@@ -260,6 +306,26 @@ class ArticlesController < ApplicationController
     end
   end
 
+  # History
+  private def edit_history_permit
+
+    # article = Article.find_by(permalink: params[:article_id], garbage: false)
+    article = Article.find_by(id: params[:article_id], garbage: false)
+  
+    if article.user_id == current_user.id
+  
+      @article = article
+      @history = @article.histories.find_by(id: params[:id])
+  
+    elsif article.any? && article.opened?
+  
+      @article = article
+      @history = @article.histories.find_by(id: params[:id])
+  
+    end
+  
+  end
+  
   private def set_q
     # スペースで区切った複数ワードの検索処理
     unless params[:q].blank?

@@ -809,9 +809,37 @@ ul.tags {
 
 
 // History show
+.histories-area > h1 {
+  font-size: 150%;
+}
+.index-history-wrapper {
+  border: 1px solid $border-color;
+  @include radius-amount;
+}
+.index-history-link {
+  @include plain-link;
+}
 .index-history {
   @include index-box;
   padding: 16px;
+  transition: all 0.1s ease-out;
+
+  .index-history-wrapper & {
+    border: none;
+    border-bottom: 1px solid $border-color;
+    padding: 12px 16px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+  
+  .index-history-link &:hover {
+    border: 1px solid $accent-color;
+    box-shadow: 0px 0px 0px 4px rgba(70, 169, 236, 0.3);  
+  }
+
   .user-info {
     margin: 0px;
   }
@@ -819,7 +847,69 @@ ul.tags {
     margin: 0px;
   }
 }
+#history-view-area {
+  display: none;
+  &.active {
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    display: block;
+    width: 80%;
+    height: 80%;
+    // width: 400px;
+    z-index: 300;
+    background: $white-color;
+    // padding: 32px 24px 0px;
+    overflow-y: scroll;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    flex-direction: column;
 
+    @include radius-amount;
+
+  }
+
+}
+.history-view {
+  position: relative;
+  padding: 32px 24px 0px;
+  flex: 1 1 auto;
+  .user-info-area {
+    margin-bottom: 32px;
+    padding: 0px;
+    .user-info {
+      margin-bottom: 0px;
+    }
+    .updated-time {
+      margin-bottom: 0px;
+    }
+  }
+}
+.revert-operation-area {
+  border-top: 1px solid $border-color;
+  position: sticky;
+  bottom: 0px;
+  background: #fefefe;
+}
+.history-view-close-button {
+  margin: 0px;
+  text-align: center;
+  padding: 24px 16px;
+  cursor: pointer;
+  border-right: 1px solid $border-color;
+  z-index: 301;
+}
+.revert-button {
+  @include plain-link;
+  color: $white-color;
+  background: $alert-color;
+  text-align: center;
+  padding: 24px 16px;
+  z-index: 301;
+}
 
 
 // Article form

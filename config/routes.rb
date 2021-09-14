@@ -60,5 +60,9 @@ Rails.application.routes.draw do
   post '/likes/:article_id', to: 'likes#create'
   delete '/likes/:article_id', to: 'likes#destroy'
 
+  # History
+  get '/articles/:article_id/histories/:id', to: 'articles#history_view'
+  post '/articles/:article_id/histories/:id', to: 'articles#revert'
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

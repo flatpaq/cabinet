@@ -48,7 +48,7 @@
 
     <div class="col-lg-3">
 
-      <% if @article.new_record? || (@article.user_id == current_user.id && @article.id != 1) %>
+      <% if article.new_record? || (article.user_id == current_user.id && article.id != 1) %>
       
         <label>公開状態</label>
         <section class="window form-group select-publish">
@@ -91,7 +91,7 @@
       <% end %>
 
 
-      <% if @article.id != 1 %>
+      <% if article.id != 1 %>
 
         <label>タグ</label>
         <div class="window form-group select-tags">
@@ -109,7 +109,7 @@
       <% end %>
 
 
-      <% if @article.new_record? || (@article.user_id == current_user.id && @article.id != 1) %>
+      <% if article.new_record? || (article.user_id == current_user.id && article.id != 1) %>
 
         <label>ゴミ箱</label>
         <section class="window form-group select-garbage">
@@ -137,6 +137,73 @@
 
 <% end %>
 
+
+
+<%# 変更履歴一覧 %>
+<% unless article.new_record? %>
+
+  <%# 変更履歴の内容を出力するエリア %>
+  <%# モーダル表示 %>
+  <div id="history-view-area">
+
+  </div>
+
+  <section class="histories-area">
+
+    <h1>履歴から復元する</h1>
+
+    <%# 変更履歴 %>
+    <% histories.each do |history| %>
+
+      <%= link_to("/articles/#{article.id}/histories/#{history.id}", method: :get, remote: true, class: 'index-history-link') do %>
+
+        <div class="index-history row nopad align-middle">
+
+          <div class="user-info col-lg">
+            <% if history.user.state? %>
+        
+              <div class="enabale-user row-nocol align-middle">
+
+                <% if history.user.user_image.attached? %>
+                  <%= image_tag history.user.user_image, class: 'user-image-index' %>
+                <% else %>
+                  <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+                <% end %>
+                
+                <div>
+                  <span class="user-name"><%= history.user.name %></span>
+                  <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+                </div>
+              </div>
+              
+
+            <% else %>
+
+              <div class="disable-user row-nocol align-middle">
+                
+                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+                
+                <div>
+                  <span class="user-name">無効なユーザー</span>
+                  <span class="user-name-id"></span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <p class="updated-time col-lg-auto">
+            <%= l history.created_at %> 更新
+          </p>
+
+        </div>
+
+      <% end %><%# link_to end %>
+
+    <% end %><%# each end %>
+
+  </section>
+
+<% end %>
 
 
 <%

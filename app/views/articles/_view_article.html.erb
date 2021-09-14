@@ -1,3 +1,4 @@
+<%= javascript_pack_tag 'article/view_article', defer: true %>
 
 <div class="article-info-are">
 
@@ -229,73 +230,73 @@
   <h1>更新履歴</h1>
 
   <%# 変更履歴 %>
-  <% @histories.each do |history| %>
-    <div class="index-history row nopad align-middle">
+  <div class="index-history-wrapper">
+    <% @histories.each do |history| %>
+      <div class="index-history row nopad align-middle">
+
+        <p class="updated-time col-lg">
+          <%= l history.created_at %> 更新
+        </p>
 
 
+        <%# 過去に当記事を更新したことがあるしたユーザー %>
+        <%#= history.user.name %>
 
-      <%# 過去に当記事を更新したことがあるしたユーザー %>
-      <%#= history.user.name %>
+        <div class="user-info col-lg-auto">
+          <% if history.user.state? %>
+            <%= link_to(history.user) do %>
+              <div class="enabale-user row-nocol align-middle">
 
-
-      <div class="user-info col-lg">
-        <% if history.user.state? %>
-          <%= link_to(history.user) do %>
-            <div class="enabale-user row-nocol align-middle">
-
-              <% if history.user.user_image.attached? %>
-                <%= image_tag history.user.user_image, class: 'user-image-index' %>
-              <% else %>
-                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
-              <% end %>
-              
-              <div>
-                <span class="user-name"><%= history.user.name %></span>
-                <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+                <% if history.user.user_image.attached? %>
+                  <%= image_tag history.user.user_image, class: 'user-image-index' %>
+                <% else %>
+                  <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+                <% end %>
+                
+                <div>
+                  <span class="user-name"><%= history.user.name %></span>
+                  <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+                </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
 
-        <% elsif history.user.state === false && current_user.admin? %>
+          <% elsif history.user.state === false && current_user.admin? %>
 
-          <%= link_to(history.user) do %>
+            <%= link_to(history.user) do %>
+
+              <div class="disable-user row-nocol align-middle">
+
+                <% if history.user.user_image.attached? %>
+                  <%= image_tag history.user.user_image, class: 'user-image-index' %>
+                <% else %>
+                  <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+                <% end %>
+
+                <div>
+                  <span class="user-name"><%= history.user.name %></span>
+                  <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+                </div>
+              </div>
+
+            <% end %>
+
+          <% else %>
 
             <div class="disable-user row-nocol align-middle">
-
-              <% if history.user.user_image.attached? %>
-                <%= image_tag history.user.user_image, class: 'user-image-index' %>
-              <% else %>
-                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
-              <% end %>
-
+              
+              <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+              
               <div>
-                <span class="user-name"><%= history.user.name %></span>
-                <span class="user-name-id">&#64;<%= history.user.name_id %></span>
+                <span class="user-name">無効なユーザーです</span>
+                <span class="user-name-id"></span>
               </div>
             </div>
-
           <% end %>
-
-        <% else %>
-
-          <div class="disable-user row-nocol align-middle">
-            
-            <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
-            
-            <div>
-              <span class="user-name">無効なユーザーです</span>
-              <span class="user-name-id"></span>
-            </div>
-          </div>
-        <% end %>
+        </div>
+        
       </div>
 
-      <p class="updated-time col-lg-auto">
-        <%= l history.created_at %> 更新
-      </p>
-      
-    </div>
-
-  <% end %>
+    <% end %>
+  </div>
 
 </section>

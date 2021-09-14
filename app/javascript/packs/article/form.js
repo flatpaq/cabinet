@@ -70,13 +70,77 @@ document.addEventListener('ajax:success', function() {
 		el.checked = false;
 
 	  // checkboxesのvalueと、checkedArrayに格納されているvalueが同じならチェックを入れる
-		if (checkedArray.indexOf(el.value) !== -1 ) {
-			el.checked = true;	
-		}
+// import Marked
+import marked from 'marked';
+
+document.addEventListener('ajax:success', markedRender);
+
+function markedRender() {
+  let oldArticleContentEl = document.querySelector('#history-view-area .old-article-content');
+  const oldArticleContentText = oldArticleContentEl.textContent;
+  const markedRendered = marked(oldArticleContentText);
+  oldArticleContentEl.innerHTML = markedRendered;  
+
+}
 
 	});
 
 });
 
 
+// Article edit Historyをモーダルウィンドウで表示する
 
+const historyViewArea = document.querySelector('#history-view-area');
+
+// closeボタンはajaxが走るごとに新規に作成されるためこのコードでは動かない
+let historyViewCloseButton;
+
+
+const indexHistoryLink = document.querySelectorAll('.index-history-link');
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  indexHistoryLink.forEach(function(linkEl) {
+    // モーダルを開く
+    linkEl.addEventListener('click', () => {
+      modalMenuOpen(historyViewArea);
+    });
+
+  });
+
+
+  document.addEventListener('ajax:success', function() {
+    historyViewCloseButton = document.querySelector('.history-view-close-button');
+
+    // クローズボタンを押した際もmodalMenuCloseが実行される
+    historyViewCloseButton.addEventListener('click', () => {
+      modalMenuClose(historyViewArea);
+    });
+
+  });
+
+  // モーダルを閉じる
+  articleFormShadowWrapper.addEventListener('click', () => {
+    modalMenuClose(historyViewArea);
+  });
+
+
+});
+
+
+// ---------------
+
+
+
+
+// モーダルオープン関数
+function modalMenuOpen(modalEl) {
+  articleFormShadowWrapper.classList.add('active');
+  modalEl.classList.add('active');
+};
+
+// モーダルクローズ関数
+function modalMenuClose(modalEl) {
+  articleFormShadowWrapper.classList.remove('active');
+  modalEl.classList.remove('active');
+};

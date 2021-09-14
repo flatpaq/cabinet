@@ -14,7 +14,7 @@
 
   <% @heading_text = "記事の編集" %>
 
-  <%= render partial: 'form', locals: { article: @article, heading_text: @heading_text } %>
+  <%= render partial: 'form', locals: { article: @article, heading_text: @heading_text, histories: @histories } %>
 
   <%# 変更履歴のリストをeditに表示, リンクを押すとAjaxで内容が閲覧できる %>
   <%# 過去の変更履歴に戻すボタンを押すと、該当の記事の内容がhistoryの内容に置き換わる %>
