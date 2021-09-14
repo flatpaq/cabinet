@@ -159,6 +159,8 @@ header.desktop-header {
     a {
       color: $primary-color;
       @include plain-link;
+      display: inline-block;
+      width: 100%;
     }
 
     .header-menu-logout a {
@@ -168,8 +170,8 @@ header.desktop-header {
   }
 
   img.header-current_user-image {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     object-fit: cover;
     border-radius: 50%;
     background: #1a2e44;
@@ -267,6 +269,10 @@ header.mobile-header {
 .content-wrapper {
   padding: 32px 24px;
 
+  // .main > & {
+  //   padding: 32px 24px 0px;
+  // }
+
   &.flash {
     padding-bottom: 0px;
   }
@@ -290,6 +296,7 @@ header.mobile-header {
 .sidebar {
   // background: $background-color;  
   background: $border-color;
+  background: #eaf0f3;
   padding: 0px;
   height: auto;
   left: -100%;
@@ -310,6 +317,7 @@ header.mobile-header {
     left: 0%;
     width: $sidebar-width;
     border-radius: 0px;
+    border-right: 1px solid $border-color;
   }
 
   &.active {
