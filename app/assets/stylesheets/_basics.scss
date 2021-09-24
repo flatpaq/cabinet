@@ -24,31 +24,31 @@ body {
   color: $primary-color;
 	letter-spacing: 0.4px;
 }
-/* web font */
-@font-face {
-	font-family: 'Noto Sans Japanese';
-	font-style: normal;
-	font-weight: 300;
-	src: font-url("NotoSansCJKjp-Light.woff") format("woff");
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Noto Sans Japanese';
-	font-style: normal;
-	font-weight: 400;
-	src: font-url("NotoSansCJKjp-Regular.woff") format("woff");
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Noto Sans Japanese';
-	font-style: normal;
-	font-weight: 700;
-	src: font-url("NotoSansCJKjp-Bold.woff") format("woff");
-	font-display: swap;
-}
-body {
-	font-family: "Noto Sans Japanese", sans-serif;
-}
+// web font
+// @font-face {
+// 	font-family: 'Noto Sans Japanese';
+// 	font-style: normal;
+// 	font-weight: 300;
+// 	src: font-url("NotoSansCJKjp-Light.woff") format("woff");
+// 	font-display: swap;
+// }
+// @font-face {
+// 	font-family: 'Noto Sans Japanese';
+// 	font-style: normal;
+// 	font-weight: 400;
+// 	src: font-url("NotoSansCJKjp-Regular.woff") format("woff");
+// 	font-display: swap;
+// }
+// @font-face {
+// 	font-family: 'Noto Sans Japanese';
+// 	font-style: normal;
+// 	font-weight: 700;
+// 	src: font-url("NotoSansCJKjp-Bold.woff") format("woff");
+// 	font-display: swap;
+// }
+// body {
+// 	font-family: "Noto Sans Japanese", sans-serif;
+// }
 a {
 	color:  $accent-color;
 	text-decoration: none;
@@ -298,6 +298,7 @@ table tr:nth-of-type(odd) {
 article img {
   background: transparent;
   border-radius: 0px;
+  width: 100%;
 }
 /* code */
 pre {
