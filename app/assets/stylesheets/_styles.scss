@@ -30,15 +30,17 @@
   background: rgba(0, 0, 0, 0.4);
   top: 0px;
   left: 0px;
-  z-index: 200;
   display: none;
+  z-index: 0;
   &.active {
     display: block;
     backdrop-filter: blur(2px);
+    z-index: 200;
   }
   &.open {
     display: block;
     background: transparent;
+    z-index: 200;
   }
 }
 
@@ -147,6 +149,9 @@ header.desktop-header {
   display: none;
   @include lg {
     display: block;
+    // position: sticky;
+    // top: 0px;
+    // z-index: 100;
   }
 
   .user-nav {
@@ -297,6 +302,7 @@ header.mobile-header {
   // background: $background-color;  
   background: $border-color;
   background: #eaf0f3;
+  background: $white-color;
   padding: 0px;
   height: auto;
   left: -100%;
@@ -345,12 +351,13 @@ header.mobile-header {
   }
 
   .mobile-user-menu-area {
-    background: $background-color;
+    // background: $background-color;
+    border-top: 1px solid #d4dde8;
   }
 
   .mobile-user-menu-info {
     padding: 12px 24px;
-    color: $white-color;
+    // color: $white-color;
   }
   .mobile-user-menu-info * {
     margin-bottom: 0px;
@@ -363,11 +370,12 @@ header.mobile-header {
     }
   }
   .mobile-user-menu a {
-    color: $white-color;
+    // color: $white-color;
     padding: 12px 24px;
   }
   .mobile-user-menu a.logout {
     background: $alert-color;
+    color: $white-color;
   }
 
   a {
@@ -387,6 +395,7 @@ header.mobile-header {
 
     &:hover, &.active {
       background: rgba(255, 255, 255, 0.8);
+      background: rgba(76, 154, 238, 0.1);
       // background: rgba(255, 255, 255, 0.1);
       color: $accent-color;
       // color: $white-color;
@@ -1215,10 +1224,12 @@ ul.tags {
 
 // TODO: 画角が崩れる
 .user-profile-image img {
-  max-width: 240px;
-  max-height: 240px;
-  width: 240px;
-  height: 240px;
+  // max-width: 240px;
+  // max-height: 240px;
+  // width: 240px;
+  // height: 240px;
+  width: 100%;
+  height: auto;
   border-radius: 50%;
   display: block;
   object-fit: cover;
