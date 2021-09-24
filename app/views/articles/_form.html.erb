@@ -67,7 +67,30 @@
             <%= f.radio_button :status, :limited %>
             <span>限定公開</span>
           <% end %>
+
+
+
+          <div class="readable-users-select-buttons">
+            <%# <p id="readable-users-select-button">ユーザーを選択</p> %>
+            <%# <p id="readable-groups-select-button">グループを選択</p> %>
+          </div>
+
+
+
+          <div id="readable-users-select-area" class="">
+            <%= render partial: 'articles/readable_user_list', locals: { users: @readable_and_writables_users, article: article } %>
+          </div>
+
+          <div id="readable-groups-select-area" class="">
+            <%= render partial: 'articles/readable_group_list', locals: { groups: @readable_and_writables_groups, article: article } %>
+          </div>
+
+
+
+
         </section>
+
+
 
         <label>編集権限</label>
         <section class="window form-group select-editor">
@@ -85,6 +108,27 @@
             <%= f.radio_button :coedit_permit, :selected %>
             <span>編集者を選択する</span>
           <% end %>
+
+
+
+          <div class="writable-users-select-buttons">
+            <%# <p id="writable-users-select-button">ユーザーを選択</p> %>
+            <%# <p id="writable-groups-select-button">グループを選択</p> %>
+          </div>
+
+
+          <div id="writable-users-select-area" class="">
+            <%= render partial: 'articles/writable_user_list', locals: { users: @readable_and_writables_users, article: article } %>
+          </div>
+
+          <div id="writable-groups-select-area" class="">
+            <%= render partial: 'articles/writable_group_list', locals: { groups: @readable_and_writables_groups, article: article } %>
+          </div>
+
+
+
+
+
         </section>
 
 
@@ -142,10 +186,7 @@
 <%# 変更履歴一覧 %>
 <% unless article.new_record? %>
 
-  <%# 変更履歴の内容を出力するエリア %>
-  <%# モーダル表示 %>
   <div id="history-view-area">
-
   </div>
 
   <section class="histories-area">

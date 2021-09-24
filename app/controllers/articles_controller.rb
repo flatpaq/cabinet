@@ -2,6 +2,8 @@ class ArticlesController < ApplicationController
 
   before_action :edit_article_permit, only: [:edit, :update]
 
+  before_action :set_readables_and_writables_users, only: [:new, :create, :edit, :update]
+
   before_action :destroy_article_permit, only: [:destroy]
   before_action :garbage_article_permit, only: [:disposal, :restore]
 
@@ -20,7 +22,35 @@ class ArticlesController < ApplicationController
 
   def index
 
-    @articles = Article.where.not(id: 1).where(status: 1, garbage: false)
+    # 記事とユーザー間での読み取り制限された記事
+    # これで該当のidsをuser_article_ids配列で取得
+    user_article_ids = current_user.readable_article_user_assignments.pluck(:article_id)
+    user_article_ids ||= []
+
+    # 記事とグループ間での読み取り制限された記事
+    # これで該当のidsをgroup_article_ids配列に取得
+    group_ids = current_user.group_user_assignments.pluck(:group_id)
+    group_ids ||= []
+    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
+    group_article_ids ||= []
+
+    # カレントユーザーの限定公開にしている記事を出力
+    current_article_ids = current_user.articles.where(status: 2).pluck(:id)
+    current_article_ids ||= []
+
+    # 公開されている記事の取得
+    general_article_ids = Article.where(status: 1).pluck(:id)
+    general_article_ids ||= []
+
+    # 該当する全ての記事のidsをarticle_idsにまとめる
+    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
+
+    # 重複しているidを削除
+    article_ids = article_ids.uniq
+
+    @articles = Article
+      .where.not(id: 1)
+      .where(id: article_ids, status: [1, 2], garbage: false)
       .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
       .order(created_at: :desc)
       .page(params[:page])
@@ -30,9 +60,31 @@ class ArticlesController < ApplicationController
   # Ransackによる検索結果一覧
   def search
 
+    user_article_ids = current_user.readable_article_user_assignments.pluck(:article_id)
+    user_article_ids ||= []
+
+    group_ids = current_user.group_user_assignments.pluck(:group_id)
+    group_ids ||= []
+    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
+    group_article_ids ||= []
+
+    # カレントユーザーの限定公開になっている記事を出力
+    current_article_ids = current_user.articles.where(status: 2).pluck(:id)
+    current_article_ids ||= []
+
+    # 一般的な記事の取得
+    general_article_ids = Article.where(status: 1).pluck(:id)
+    general_article_ids ||= []
+
+    # 該当する全ての記事のidsをarticle_idsにまとめる
+    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
+
+    # 重複しているidを削除
+    article_ids = article_ids.uniq
+
     @results = @q.result(distinct: true)
       .where.not(id: 1)
-      .where(status: 1, garbage: false)
+      .where(id: article_ids, status: [1, 2], garbage: false)
       .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
       .order(created_at: :desc)
       .page(params[:page])
@@ -42,23 +94,27 @@ class ArticlesController < ApplicationController
   def show
 
     article = Article.find_by(permalink: params[:id])
-
+  
     if article.user_id == current_user.id
 
-      # NOTE: @article = article でいけると思う
+      # 記事の著者がカレントユーザーなら、公開状態も削除されたかも関係なく閲覧できる
       @article = current_user.articles.includes(:tags, :histories, :likes)
-        .find_by(permalink: params[:id], status: [0, 1, 2])
-      
+        .find_by(permalink: params[:id])
+
+    elsif article.limited? \
+      && current_user.article_readable?(article, current_user.id)
+
+      # 記事が読み取りユーザーの限定をしており、記事がカレントユーザーに読み取り許可されている場合
+      @article = Article.includes(:tags, :histories, :likes)
+        .find_by(permalink: params[:id], garbage: false)
+
     else
-    # NOTE: 以下2行で書き換えられそう
-    # elsif article.opened? && article.garbage == false
-      # @article = article
 
       @article = Article.includes(:tags, :histories, :likes)
         .find_by(permalink: params[:id], status: 1, garbage: false)
 
     end
- 
+
     @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
 
   end
@@ -92,10 +148,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    # @tag = Tag.new
-
-    # @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
-  
+    # @tag = Tag.new  
   end
 
   def history_view
@@ -206,23 +259,39 @@ class ArticlesController < ApplicationController
 
   # 特定の記事をいいねしたユーザーを表示する
   def liked_user
-    @article = Article.find_by(permalink: params[:id], status: 1, garbage: false)
+
+    article = Article.find_by(permalink: params[:id])
+
+    if article.user_id == current_user.id
+
+      @article = article
+
+    elsif article.limited? \
+      && current_user.article_readable?(article, current_user.id) \
+      && article.garbage == false
+
+      @article = article
+
+    elsif article.opened? && article.garbage == false
+
+      @article = article
+
+    end
 
     liked_user_ids = @article.likes.pluck(:user_id)
 
     @users = User.where(id: liked_user_ids).includes({user_image_attachment: :blob})
 
-
     # NOTE: 上記のコード2行で実現できるかも SQLリクエストも減る?
     # liked_user_ids = Like.where(article_id: Article.find_by(permalink: params[:id], status: 1, garbage: false).select(:id)).pluck(:user_id)
     # @users =  User.where(id: liked_user_ids).includes({user_image_attachment: :blob})
-    # -----
     
   end
 
   # カレントユーザの保持している下書きを一覧表示する
   def drafts
     @articles = current_user.articles.where(status: 0, garbage: false)
+      .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
       .order(created_at: :desc)
       .page(params[:page])
   end
@@ -230,6 +299,7 @@ class ArticlesController < ApplicationController
   # カレントユーザの、ゴミ箱に入れた記事を出力する
   def deleted
     @articles = current_user.articles.where(garbage: true)
+      .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
       .order(created_at: :desc)
       .page(params[:page])
   end
@@ -265,7 +335,7 @@ class ArticlesController < ApplicationController
   # private
 
   private def article_params
-    params.require(:article).permit(:title, :content, :permalink, :status, :garbage, :coedit_permit, { tag_ids: [] })
+    params.require(:article).permit(:title, :content, :permalink, :status, :garbage, :coedit_permit, { tag_ids: [] }, { readable_article_user_ids: [] }, { readable_article_group_ids: [] }, { writable_article_user_ids: [] }, { writable_article_group_ids: [] })
   end
 
   private def other_user_article_params
@@ -276,18 +346,42 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:title, :content, :permalink)
   end
 
-  # 現状 カレントユーザのみ編集ができる
-  # TODO: 今後 書き込み許可されたグループあるいはユーザの処理を行う
-  # 記事がゴミ箱に入っていると編集はできない
   private def edit_article_permit
+
     article = Article.find_by(permalink: params[:id], garbage: false)
+
     if article.user_id == current_user.id
+
       @article = article
-      @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
-    elsif article.any? && article.opened?
+
+    elsif article.selected? \
+      && article.opened? \
+      && current_user.article_writable?(article, current_user.id)
+
       @article = article
-      @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
+
+    elsif article.selected? \
+      && article.limited? \
+      && current_user.article_writable?(article, current_user.id) \
+      && current_user.article_readable?(article, current_user.id)
+
+      @article = article
+
+    elsif article.any? \
+      && article.limited? \
+      && current_user.article_readable?(article, current_user.id)
+
+      @article = article
+
+    elsif article.any? \
+      && article.opened?
+
+      @article = article
+
     end
+
+    @histories = @article.histories.select(:id, :user_id, :article_id, :created_at).includes(:user).order(created_at: :desc).limit(10)
+
   end
 
   # 管理者のみが記事を完全に削除できるようにする
@@ -309,20 +403,39 @@ class ArticlesController < ApplicationController
   # History
   private def edit_history_permit
 
-    # article = Article.find_by(permalink: params[:article_id], garbage: false)
     article = Article.find_by(id: params[:article_id], garbage: false)
-  
+
     if article.user_id == current_user.id
-  
+
       @article = article
-      @history = @article.histories.find_by(id: params[:id])
-  
-    elsif article.any? && article.opened?
-  
+
+    elsif article.selected? \
+      && article.opened? \
+      && current_user.article_writable?(article, current_user.id)
+
       @article = article
-      @history = @article.histories.find_by(id: params[:id])
-  
+
+    elsif article.selected? \
+      && article.limited? \
+      && current_user.article_writable?(article, current_user.id) \
+      && current_user.article_readable?(article, current_user.id)
+
+      @article = article
+
+    elsif article.any? \
+      && article.limited? \
+      && current_user.article_readable?(article, current_user.id)
+
+      @article = article
+
+    elsif article.any? \
+      && article.opened?
+
+      @article = article
+
     end
+
+    @history = @article.histories.find_by(id: params[:id])
   
   end
   
@@ -339,6 +452,15 @@ class ArticlesController < ApplicationController
     end
     # 検索結果のコレクションをqに格納
     @q = Article.ransack(params[:q])
+  end
+
+  private def set_readables_and_writables_users
+
+    @readable_and_writables_users = User.where(state: true).select(:id, :name_id, :name).order(name_id: :asc)
+    @readable_and_writables_users ||= []
+    @readable_and_writables_groups = Group.all.select(:id, :slug, :name).order(slug: :asc)
+    @readable_and_writables_groups ||= []
+
   end
 
 end

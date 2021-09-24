@@ -14,11 +14,13 @@ class UsersController < ApplicationController
   def search
     if current_user.admin?
       @results = @q.result(distinct: true)
-        .order(created_at: :desc).page(params[:page])
+        .order(name_id: :asc)
+        .page(params[:page])
     else
       @results = @q.result(distinct: true)
         .where(state: true)
-        .order(created_at: :desc).page(params[:page])
+        .order(name_id: :asc)
+        .page(params[:page])
     end
   end
 
@@ -26,15 +28,38 @@ class UsersController < ApplicationController
     if current_user.admin?
       @users = User.all
         .includes({user_image_attachment: :blob})
-        .order(created_at: :desc).page(params[:page])
+        .order(name_id: :asc)
+        .page(params[:page])
     else
       @users = User.where(state: true)
         .includes({user_image_attachment: :blob})
-        .order(created_at: :desc).page(params[:page])
+        .order(name_id: :asc)
+        .page(params[:page])
     end
   end
 
   def show
+
+    user_article_ids = current_user.readable_article_user_assignments.pluck(:article_id)
+    user_article_ids ||= []
+
+    group_ids = current_user.group_user_assignments.pluck(:group_id)
+    group_ids ||= []
+    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
+    group_article_ids ||= []
+
+    current_article_ids = current_user.articles.where(status: 2).pluck(:id)
+    current_article_ids ||= []
+
+    general_article_ids = Article.where(status: 1).pluck(:id)
+    general_article_ids ||= []
+
+    # 該当する全ての記事のidsをarticle_idsにまとめる
+    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
+
+    # 重複しているidを削除
+    article_ids = article_ids.uniq
+
     if current_user.admin?
       @user = User.find_by(name_id: params[:id])
     else
@@ -51,7 +76,8 @@ class UsersController < ApplicationController
         .page(params[:page])
     else
       @articles = @user.articles
-        .where(status: 1, garbage: false)
+        .where.not(id: 1)
+        .where(id: article_ids, status: [1, 2], garbage: false)
         .includes(:tags, :likes)
         .order(created_at: :desc)
         .page(params[:page])
@@ -60,7 +86,8 @@ class UsersController < ApplicationController
     # ユーザーがいいねした記事を出力する
     like_ids = @user.likes.pluck(:article_id)
     @liked_articles = Article
-      .where(id: like_ids, status: 1, garbage: false)
+      .where(id: like_ids)
+      .where(id: article_ids, status: [1, 2], garbage: false)
       .includes(:user, {user: {user_image_attachment: :blob}}, :tags, :histories, :likes)
       .page(params[:page])
 
@@ -107,7 +134,6 @@ class UsersController < ApplicationController
 
   def disable
     @user = User.find_by(name_id: params[:id])
-    # TODO: 自分自身は無効化できないようにする?
     @user.state = false
     if @user.save
       redirect_to users_url, notice:  "#{@user.name}のユーザーアカウントを無効にしました。"

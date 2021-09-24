@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   end
 
+  # Group
+  resources :groups
+
   # Article
   resources :articles do
     member do
@@ -45,7 +48,7 @@ Rails.application.routes.draw do
       get 'search', to: 'articles#search'
 
       # 記事に画像を埋め込む
-      post 'attach', to: 'articles#attach'      
+      post 'attach', to: 'articles#attach'
     end
   end
 

@@ -16,7 +16,7 @@
 
 
 <div id="tag-select-area" class="row">
-  <%= collection_check_boxes(:article, :tag_ids, Tag.all, :id, :slug, checked: article.tag_ids, include_hidden: false) do |t| %>
+  <%= collection_check_boxes(:article, :tag_ids, Tag.all, :id, :slug, checked: article.tag_ids) do |t| %>
 
     <div class="col-lg-4">
       <div class="tag-select-checkbox">

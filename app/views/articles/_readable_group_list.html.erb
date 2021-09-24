@@ -1,0 +1,16 @@
+<h2>グループ</h2>
+
+
+<%= collection_check_boxes(:article, :readable_article_group_ids, groups, :id, :slug, checked: article.readable_article_group_ids) do |rg| %>
+
+  <div class="">
+    <div class="">
+      <%= rg.label(class: 'checkbox') do %>
+        <%= rg.check_box %>
+        <span class="group-name"><%= rg.object.name %></span>
+        <span class="group-slug"><%= rg.text %></span>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>

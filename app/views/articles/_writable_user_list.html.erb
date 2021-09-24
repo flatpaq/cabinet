@@ -1,0 +1,16 @@
+
+<h2>ユーザー</h2>
+
+<%= collection_check_boxes(:article, :writable_article_user_ids, users, :id, :name_id, checked: article.writable_article_user_ids) do |wu| %>
+
+  <div class="">
+    <div class="">
+      <%= wu.label(class: 'checkbox') do %>
+        <%= wu.check_box %>
+        <span class="user-name"><%= wu.object.name %></span>
+        <span class="user-name-d"><%= wu.text %></span>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>

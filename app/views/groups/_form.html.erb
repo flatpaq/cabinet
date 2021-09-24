@@ -1,0 +1,63 @@
+<% if group.errors.present? %>
+  <ul id="error-explanation">
+    <% group.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: group, local: true, class: 'form') do |f| %>
+
+  <h2>オーナー選択</h2>
+  <div class="group-owner-select-area row nopad"> 
+    <%= collection_radio_buttons(:group, :user_id, User.where(state: true), :id, :name_id, checked: group.user_id) do |t| %>
+
+      <div class="">
+        <div class="">
+          <%= t.label(class: 'radio') do %>
+            <%= t.radio_button %>
+            <span class="user-name"><%= t.object.name %></span>
+            <span class="user-name-d"><%= t.text %></span>
+          <% end %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+
+  <h2>メンバー選択</h2>
+  <div class="group-member-select-area row nopad">
+    <%= collection_check_boxes(:group, :user_ids, User.where(state: true), :id, :name_id, checked: group.user_ids) do |t| %>
+
+      <div class="">
+        <div class="">
+          <%= t.label(class: 'checkbox') do %>
+            <%= t.check_box %>
+            <span class="user-name"><%= t.object.name %></span>
+            <span class="user-name-d"><%= t.text %></span>
+          <% end %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+
+
+  <%= f.label :slug %>
+  <%= f.text_field :slug, class: 'form' %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form' %>
+
+
+  <label>プライベート</label>
+  <section class="window form-group">
+    <%= f.label :secret, class: 'toggle' do %>
+      <%= f.check_box :secret %>
+      <span>プライベート</span>
+    <% end %>
+  </section>
+
+  <%= f.submit nil, class: 'btn' %>
+
+<% end %>

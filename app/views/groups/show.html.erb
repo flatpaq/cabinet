@@ -1,0 +1,54 @@
+<% content_for :breadcrumbs do %>
+  <li>
+  <%= link_to(groups_path) do %>
+  グループ一覧
+  <% end %>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+  </svg></li>
+
+  <li><%= @group.name %></li>
+
+<% end %>
+
+
+<div class="content-wrapper">
+
+  <h1><%= @group.name %></h1>
+
+  <%= @group.slug %>
+
+  <%= @group.group_owner.name %>
+  <%= @group.group_owner.name_id %>
+
+  <%= @group.secret ? "秘密のグループ" : "公開グループ" %>
+
+  <%# グループの所有者か管理者でなければ編集と削除は行えない %>
+  <% if current_user.id == @group.user_id || current_user.admin? %>
+
+    <%= link_to(edit_group_path(@group), class: 'edit') do %>
+      編集
+    <% end %>
+
+    <%= link_to(@group, method: :delete, data: { confirm: "#{@group.name}グループを削除します。よろしいですか？"}, class: 'delete') do %>
+      削除
+    <% end %>
+
+  <% end %>
+
+  <%# グループメンバーを表示する %>
+  <%# グループが秘密じゃないかつ、 %>
+  <% if ! @group.secret? || current_user.id == @group.user_id || current_user.admin?  %>
+
+  <h2>メンバー</h2>
+
+    <% @group.users.each do |user| %>
+
+      <p><%= user.name %><br>
+      <%= user.name_id %></p>
+
+    <% end %>
+
+  <% end %>
+
+</div>

@@ -1,0 +1,73 @@
+<% content_for :breadcrumbs do %>
+  <li>グループ</li>
+<% end %>
+
+<div class="content-wrapper">
+
+  <div class="page-heading-wrapper groups-index row nopad align-top">
+
+    <div class="page-heading col">
+      <h1>グループ</h1>
+    </div>
+
+    <div class="add-article col-auto">
+
+      <div class="row-nocol just-end-lg">
+        <p><%= link_to(new_group_path, class: 'btn') do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>グループの作成
+        <% end %></p>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <% if @groups.exists? %>
+    <% @groups.each do |group| %>
+      <div class="group-index">
+        <div class="group-heading row align-top">
+
+          <div class="group-name">
+            <h1><%= link_to(group.name, group_path(group)) %></h1>
+          </div>
+
+        </div>
+
+        <%= link_to(group.slug, group_path(group)) %>
+
+        <%= group.group_owner.name %>
+        <%= group.group_owner.name_id %>
+
+        <%= group.secret ? "秘密のグループ" : "公開グループ" %>
+
+
+
+        <%# グループの所有者か管理者でなければ編集と削除は行えない %>
+        <% if current_user.id == group.user_id || current_user.admin? %>
+
+          <%= link_to(edit_group_path(group), class: 'edit') do %>
+            編集
+          <% end %>
+
+          <%= link_to(group, method: :delete, data: { confirm: "#{group.name}グループを削除します。よろしいですか？"}, class: 'delete') do %>
+            削除
+          <% end %>
+
+        <% end %>
+
+
+
+      </div>
+
+    <% end %>
+
+    <%= paginate @groups %>
+
+  <% end %>
+
+
+</div>
