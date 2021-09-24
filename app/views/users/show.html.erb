@@ -12,15 +12,12 @@
 
 <% end %>
 
-
 <div class="content-wrapper">
-
-
 
   <div class="user-head row align-top">
 
     <%# ユーザー情報 %> 
-    <div class="user-profile-image col-lg-auto">
+    <div class="user-profile-image col-md-3">
       
       <% if @user.user_image.attached? %>
         <%= image_tag @user.user_image, class: 'user-image-index' %>
@@ -30,15 +27,14 @@
           
     </div>
 
-    <div class="user-profile-text user-info col-lg">
+    <div class="user-profile-text user-info col-md-5">
       <h1 class="user-name"><%= @user.name %></h1>
       <p class="user-name-id">&#64;<%= @user.name_id %></p>
       <p><%= @user.introduction %></p>
     </div>
 
 
-
-    <div class="user-operation-area col-lg-auto">
+    <div class="user-operation-area col-md-4">
       <div class="user-operation row-nocol just-end">
         <% if @user.id == current_user.id || current_user.admin? %>
           <%= link_to(edit_user_path(@user), class: 'edit show btn btn-radius border') do %>
@@ -74,9 +70,8 @@
       </div>
 
 
-
       <%# 無効か管理者か %>
-      <div class="user-type-area row-nocol just-end-lg">
+      <div class="user-type-area row-nocol just-end">
       
         <% if ! @user.state? %>
 
@@ -98,25 +93,9 @@
         <% end %>
       </div><%# user-type-area end %>
 
-
-
-
-
     </div><%# user-operation-area end %>
 
   </div><%# user-head end %%>
-
-
-
-        
-
-
-
-
-
-
-
-
 
   <div class="user-articles-area">
 
@@ -517,13 +496,11 @@
         </div><%# like-articles-tab-cont end %>
 
         
-
       </div><%# tab-cont end %>
 
     </div><%# tab-wrapper end %>
 
   </div><%# user-articles-area end %>
-
 
 
 </div>

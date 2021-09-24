@@ -1,10 +1,7 @@
 
 // チェックボックス要素を取得
 let checkboxes = document.getElementsByName('article[tag_ids][]');
-
-
 let selectedTagsList = document.querySelector('.selected-tags-list');
-
 
 // チェックされた値を格納する配列を初期化
 let checkedArray = [];
@@ -25,8 +22,6 @@ checkboxes.forEach(function(el) {
 	checkedElementsToArray(el);
 });
 
-
-
 // console.log(checkedElementsText);
 checkedElementsText.forEach(function(el) {
   let elList = document.createElement('li');
@@ -45,8 +40,6 @@ function checkedCheck() {
 		checkedElementsToArray(el);
 	});
 
-
-
   selectedTagsList.textContent = '';
   // console.log(checkedElementsText);
   checkedElementsText.forEach(function(el) {
@@ -56,10 +49,10 @@ function checkedCheck() {
     selectedTagsList.append(elList);
   });
 
-
 }
 
-// Tags Addアクションが成功したら
+// Tags Addアクションが成功したらチェックボックスの取得状況を更新
+// TODO: documentをセレクタにしない
 // document.addEventListener('ajax:success', function() {
 
 	// Ajax後に更新されたチェックボックス要素を再取得
@@ -82,35 +75,26 @@ function checkedCheck() {
 // import Marked
 import marked from 'marked';
 
-document.addEventListener('ajax:success', markedRender);
+// document.addEventListener('ajax:success', markedRender);
 
 function markedRender() {
   let oldArticleContentEl = document.querySelector('#history-view-area .old-article-content');
   const oldArticleContentText = oldArticleContentEl.textContent;
   const markedRendered = marked(oldArticleContentText);
-  oldArticleContentEl.innerHTML = markedRendered;  
+  oldArticleContentEl.innerHTML = markedRendered;
 
 }
 
-
-
-// --------------------------
 // Articles new, edit タグ選択画面の表示
 
-
-// body直下のdiv.wrapper
-
+// body直下のdiv.shadow-wrapper
 const articleFormShadowWrapper = document.querySelector('.shadow-wrapper');
-
 // クローズボタン .tag-select-areaのなかに書く
 const closeButton = document.querySelector('.tags-window-close-button');
-
 // クリックするボタン
 const openButton = document.querySelector('.add-tag-to-article');
-
 // タグ選択エリア はじめは非表示にしておく
 const tagsWindowArea = document.querySelector('.tags-window-area');
-
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -130,54 +114,44 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 });
-// ---------------
-
-
 
 // Article edit Historyをモーダルウィンドウで表示する
 
 const historyViewArea = document.querySelector('#history-view-area');
-
-// closeボタンはajaxが走るごとに新規に作成されるためこのコードでは動かない
 let historyViewCloseButton;
 
-
-const indexHistoryLink = document.querySelectorAll('.index-history-link');
+const indexHistoryLinks = document.querySelectorAll('.index-history-link');
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  indexHistoryLink.forEach(function(linkEl) {
+  indexHistoryLinks.forEach(function(linkEl) {
     // モーダルを開く
     linkEl.addEventListener('click', () => {
       modalMenuOpen(historyViewArea);
     });
 
-  });
+    linkEl.addEventListener('ajax:success', function() {
+      historyViewCloseButton = document.querySelector('.history-view-close-button');
+  
+      // クローズボタンを押すとモーダルを閉じる
+      historyViewCloseButton.addEventListener('click', () => {
+        modalMenuClose(historyViewArea);
+      });
 
-
-  document.addEventListener('ajax:success', function() {
-    historyViewCloseButton = document.querySelector('.history-view-close-button');
-
-    // クローズボタンを押した際もmodalMenuCloseが実行される
-    historyViewCloseButton.addEventListener('click', () => {
-      modalMenuClose(historyViewArea);
+      // モーダル内のmarkdownをHTMLへレンダリングする
+      markedRender();
+  
     });
-
+  
   });
 
-  // モーダルを閉じる
+  // 背景をクリックするとモーダルを閉じる
   articleFormShadowWrapper.addEventListener('click', () => {
     modalMenuClose(historyViewArea);
   });
 
 
 });
-
-
-// ---------------
-
-
-
 
 // モーダルオープン関数
 function modalMenuOpen(modalEl) {
