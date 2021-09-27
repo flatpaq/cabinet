@@ -128,6 +128,83 @@ $sidebar-width: 220px;
 }
 
 
+@mixin select-window($model) {
+
+  display: none;
+  &.active {
+    display: block;
+    width: 80%;
+    height: 80%;
+    // width: 400px;
+    z-index: 300;
+    background: $white-color;
+    padding: 32px 24px;
+    overflow-y: scroll;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    @include radius-amount;
+
+  }
+
+  .#{$model}-select-heading {
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    margin: 0px;
+  }
+  .#{$model}s-window-close-button svg {
+    font-size: 48px;
+    cursor: pointer;
+  }
+
+  ##{$model}-select-area.row, .#{$model}-select-area.row {
+    margin-left: -8px;
+    margin-right: -8px;
+
+    .col-lg-4 {
+      padding-left: 8px;
+      padding-right: 8px;
+      margin-bottom: 16px;
+    }
+
+  }
+
+  .#{$model}-select-checkbox {
+    padding: 16px;
+    @include radius-amount;
+    background: $gray-color;
+    // margin-bottom: 16px;
+    height: 100%;
+
+      // &:hover {
+      //   background: $gray-color;
+      // }
+      label.checkbox {
+        margin: 0px;
+      }
+      label.radio {
+        margin: 0px;
+      }
+
+      .#{$model}-slug {
+        // display: inline-block;
+        // display: inline;
+        margin-left: 8px;
+        padding: 4px 8px;
+        background: $tag-color;
+        @include very-small-font-size;
+        @include radius-amount;
+      }
+
+  }
+
+}
+
+
 // responsive media query
 $xl: 1200px;
 $lg: 992px;

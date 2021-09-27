@@ -765,10 +765,22 @@ ul.tags {
     background: $any-color;
   }
 
+  &.limited-indication {
+    background: $secondary-color;
+  }
+
+  &.selected-indication {
+    color: $secondary-color;
+    border: 1px solid $secondary-color;
+  }
+
   margin: 0px 12px 16px 0px;
 
   .index-article & {
-    margin: 0px 16px 16px 16px;
+    margin: 0px 0px 16px 16px;
+    @include lg {
+      margin: 0px 16px 16px 0px;
+    }
   }
   @include lg {
     margin: 0px 0px 16px 12px;
@@ -964,83 +976,48 @@ ul.tags {
 .window.form-group {
   @include radius-amount;
 }
+
+
+
+// 閲覧編集権限の設定
+#readable-users-select-button, #readable-groups-select-button, #writable-users-select-button, #writable-groups-select-button {
+  padding: 6px 12px;
+  width: 100%; 
+}
+
+#readable-users-select-area {
+  @include select-window(user);
+}
+#readable-groups-select-area {
+  @include select-window(group);
+}
+#writable-users-select-area {
+  @include select-window(user);
+}
+#writable-groups-select-area {
+  @include select-window(group);
+}
+
+.select-publish :last-of-type, .select-editor :last-of-type {
+  margin-bottom: 0px;
+}
+
+.readable-users-select-buttons, .writable-users-select-buttons {
+  display: none;
+  &.active {
+    display: block;
+    margin-top: 24px;
+  }
+}
+
+// タグの編集画面
 .add-tag-to-article.btn.btn-radius.border {
   padding: 6px 12px;
+  width: 100%;
 }
 
 .tags-window-area {
-  display: none;
-  &.active {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    display: block;
-    width: 80%;
-    height: 80%;
-    // width: 400px;
-    z-index: 300;
-    background: $white-color;
-    padding: 32px 24px;
-    overflow-y: scroll;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-
-    @include radius-amount;
-
-  }
-
-  .tag-select-heading {
-    margin-bottom: 32px;
-  }
-
-  h1 {
-    margin: 0px;
-  }
-  .tags-window-close-button svg {
-    font-size: 48px;
-    cursor: pointer;
-  }
-
-  #tag-select-area.row {
-    margin-left: -8px;
-    margin-right: -8px;
-
-    .col-lg-4 {
-      padding-left: 8px;
-      padding-right: 8px;
-      margin-bottom: 16px;
-    }
-
-  }
-
-  .tag-select-checkbox {
-    padding: 16px;
-    @include radius-amount;
-    background: $gray-color;
-    // margin-bottom: 16px;
-    height: 100%;
-
-      // &:hover {
-      //   background: $gray-color;
-      // }
-      label.checkbox {
-        margin: 0px;
-      }
-
-      .tag-slug {
-        // display: inline-block;
-        // display: inline;
-        margin-left: 8px;
-        padding: 4px 8px;
-        background: $tag-color;
-        @include very-small-font-size;
-        @include radius-amount;
-      }
-
-  }
-
+  @include select-window(tag);
 }
 
 // Tag page
@@ -1289,3 +1266,89 @@ ul.tags {
   display: block;
 }
 
+// group index
+.group-index {
+  @include index-box;
+  padding: 16px;
+  .btn {
+    margin: 0px;
+  }
+
+  .group-slug {
+    margin-bottom: 12px;
+    @include lg {
+      margin-bottom: 0px;
+    }
+  }
+
+  .group-heading {
+    margin-bottom: 0px;
+    @include lg {
+      margin-bottom: 12px;
+    }
+  
+    h1 {
+      margin-bottom: 12px;
+      @include lg {
+        margin-bottom: 0px;
+      }
+    }
+  }
+  
+  .group-name h1 a:hover {
+    color: $accent-color;
+  }
+  
+  .group-slug, .group-secret-area > p {
+    margin: 0px;
+  }
+  .group-slug a {
+    color: $primary-color;
+  
+    &:hover {
+      color: $accent-color;
+      text-decoration: underline;
+    }
+    
+  }
+  
+}
+.group-operation-area {
+  @include operation-area;
+  .group-index & a {
+    margin-bottom: 12px;
+    @include lg {
+      margin-bottom: 0px;
+    }
+  }
+}
+.group-slug {
+  color: #536471;
+}
+.group-secret-status {
+
+  @include status-indication;
+  @include very-small-font-size;
+  margin-right: 0px;
+
+  &.secret-indication {
+    background: $any-color;
+  }
+
+}
+.user-info.owner {
+  padding: 0px;
+}
+
+// グループのオーナーまたはメンバーの設定
+#group-owner-select-button, #group-member-select-button {
+  padding: 6px 12px;
+  width: 100%; 
+}
+
+#group-owners-select-area {
+  @include select-window(group-owner);
+}
+#group-members-select-area {
+  @include select-window(group-member);
+}

@@ -1,16 +1,29 @@
-<h2>グループ</h2>
 
+<div class="group-select-heading row align-top">
+  <h1 class="col">グループに編集権限をつける</h1>
 
-<%= collection_check_boxes(:article, :writable_article_group_ids, groups, :id, :slug, checked: article.writable_article_group_ids) do |wg| %>
-
-  <div class="">
-    <div class="">
-      <%= wg.label(class: 'checkbox') do %>
-        <%= wg.check_box %>
-        <span class="group-name"><%= wg.object.name %></span>
-        <span class="group-slug"><%= wg.text %></span>
-      <% end %>
+  <div class="groups-window-close-button col">
+    <div class="row-nocol just-end">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+      </svg>
     </div>
   </div>
 
-<% end %>
+</div>
+
+<div class="group-select-area row">
+  <%= collection_check_boxes(:article, :writable_article_group_ids, groups, :id, :slug, checked: article.writable_article_group_ids) do |wg| %>
+
+    <div class="col-lg-4">
+      <div class="group-select-checkbox">
+        <%= wg.label(class: 'checkbox') do %>
+          <%= wg.check_box %>
+          <span class="group-name"><%= wg.object.name %></span>
+          <span class="group-slug"><%= wg.text %></span>
+        <% end %>
+      </div>
+    </div>
+
+  <% end %>
+</div>

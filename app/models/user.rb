@@ -92,6 +92,36 @@ class User < ApplicationRecord
 
   end
 
+  def get_article_ids(user)
+
+    # 記事とユーザー間で読み取り制限を設定した記事
+    # これで該当のidsをuser_article_ids配列で取得
+    user_article_ids = user.readable_article_user_assignments.pluck(:article_id)
+    user_article_ids ||= []
+
+    # 記事とグループ間での読み取り制限を設定した記事
+    # これで該当のidsをgroup_article_ids配列に取得
+    group_ids = user.group_user_assignments.pluck(:group_id)
+    group_ids ||= []
+    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
+    group_article_ids ||= []
+
+    # カレントユーザーの限定公開にしている記事を出力
+    current_article_ids = user.articles.where(status: 2).pluck(:id)
+    current_article_ids ||= []
+
+    # 公開されている記事の取得
+    general_article_ids = Article.where(status: 1).pluck(:id)
+    general_article_ids ||= []
+
+    # 該当する全ての記事のidsをarticle_idsにまとめる
+    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
+
+    # 重複しているidを削除
+    @article_ids = article_ids.uniq
+
+  end
+
   # private
 
   private def set_admin

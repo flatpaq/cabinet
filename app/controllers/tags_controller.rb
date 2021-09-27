@@ -11,23 +11,7 @@ class TagsController < ApplicationController
   # そのタグに紐づく記事一覧を表示する
   def show
 
-    user_article_ids = current_user.readable_article_user_assignments.pluck(:article_id)
-    user_article_ids ||= []
-
-    group_ids = current_user.group_user_assignments.pluck(:group_id)
-    group_ids ||= []
-    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
-    group_article_ids ||= []
-
-    current_article_ids = current_user.articles.where(status: 2).pluck(:id)
-    current_article_ids ||= []
-
-    general_article_ids = Article.where(status: 1).pluck(:id)
-    general_article_ids ||= []
-
-    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
-
-    article_ids = article_ids.uniq
+    article_ids = current_user.get_article_ids(current_user)
 
     @tag = Tag.find_by(slug: params[:id])
   

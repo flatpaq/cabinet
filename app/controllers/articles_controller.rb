@@ -1,13 +1,18 @@
 class ArticlesController < ApplicationController
 
+  # 該当記事の編集権限をカレントユーザーが有しているかの確認
   before_action :edit_article_permit, only: [:edit, :update]
 
+  # 記事作成または編集時に、読み書き権限の設定が可能なユーザーとグループを変数にしてViewに渡す
   before_action :set_readables_and_writables_users, only: [:new, :create, :edit, :update]
 
+  # 管理者が該当の記事の完全に削除する際の確認
   before_action :destroy_article_permit, only: [:destroy]
+
+  # カレントユーザーが自身の記事を削除または復元する際の確認
   before_action :garbage_article_permit, only: [:disposal, :restore]
 
-  # 更新履歴の確認、復元
+  # 更新履歴の確認、記事の内容を戻す際の権限確認
   before_action :edit_history_permit, only: [:history_view, :revert]
 
   # Ransackによる検索機能
@@ -22,31 +27,7 @@ class ArticlesController < ApplicationController
 
   def index
 
-    # 記事とユーザー間での読み取り制限された記事
-    # これで該当のidsをuser_article_ids配列で取得
-    user_article_ids = current_user.readable_article_user_assignments.pluck(:article_id)
-    user_article_ids ||= []
-
-    # 記事とグループ間での読み取り制限された記事
-    # これで該当のidsをgroup_article_ids配列に取得
-    group_ids = current_user.group_user_assignments.pluck(:group_id)
-    group_ids ||= []
-    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
-    group_article_ids ||= []
-
-    # カレントユーザーの限定公開にしている記事を出力
-    current_article_ids = current_user.articles.where(status: 2).pluck(:id)
-    current_article_ids ||= []
-
-    # 公開されている記事の取得
-    general_article_ids = Article.where(status: 1).pluck(:id)
-    general_article_ids ||= []
-
-    # 該当する全ての記事のidsをarticle_idsにまとめる
-    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
-
-    # 重複しているidを削除
-    article_ids = article_ids.uniq
+    article_ids = current_user.get_article_ids(current_user)
 
     @articles = Article
       .where.not(id: 1)
@@ -60,27 +41,7 @@ class ArticlesController < ApplicationController
   # Ransackによる検索結果一覧
   def search
 
-    user_article_ids = current_user.readable_article_user_assignments.pluck(:article_id)
-    user_article_ids ||= []
-
-    group_ids = current_user.group_user_assignments.pluck(:group_id)
-    group_ids ||= []
-    group_article_ids = ReadableArticleGroupAssignment.where(group_id: group_ids).pluck(:article_id)
-    group_article_ids ||= []
-
-    # カレントユーザーの限定公開になっている記事を出力
-    current_article_ids = current_user.articles.where(status: 2).pluck(:id)
-    current_article_ids ||= []
-
-    # 一般的な記事の取得
-    general_article_ids = Article.where(status: 1).pluck(:id)
-    general_article_ids ||= []
-
-    # 該当する全ての記事のidsをarticle_idsにまとめる
-    article_ids = user_article_ids + group_article_ids + current_article_ids + general_article_ids
-
-    # 重複しているidを削除
-    article_ids = article_ids.uniq
+    article_ids = current_user.get_article_ids(current_user)
 
     @results = @q.result(distinct: true)
       .where.not(id: 1)
@@ -255,7 +216,6 @@ class ArticlesController < ApplicationController
     end
 
   end
-
 
   # 特定の記事をいいねしたユーザーを表示する
   def liked_user

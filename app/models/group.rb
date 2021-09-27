@@ -21,6 +21,8 @@ class Group < ApplicationRecord
   def to_param
     slug
   end
+
+  # belongs_to :user
   
   # group_user_assignments Userとの多対多の関連付け
   has_many :group_user_assignments, dependent: :destroy

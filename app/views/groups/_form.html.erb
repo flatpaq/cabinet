@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'group/form', defer: true %>
+
 <% if group.errors.present? %>
   <ul id="error-explanation">
     <% group.errors.full_messages.each do |message| %>
@@ -8,56 +10,119 @@
 
 <%= form_with(model: group, local: true, class: 'form') do |f| %>
 
-  <h2>オーナー選択</h2>
-  <div class="group-owner-select-area row nopad"> 
-    <%= collection_radio_buttons(:group, :user_id, User.where(state: true), :id, :name_id, checked: group.user_id) do |t| %>
+  <div class="row">
 
-      <div class="">
-        <div class="">
-          <%= t.label(class: 'radio') do %>
-            <%= t.radio_button %>
-            <span class="user-name"><%= t.object.name %></span>
-            <span class="user-name-d"><%= t.text %></span>
-          <% end %>
+    <div class="col-lg-6">
+
+      <%= f.label :slug %>
+      <%= f.text_field :slug, class: 'form' %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form' %>
+
+      <label>プライベート</label>
+      <section class="window form-group">
+        <%= f.label :secret, class: 'toggle' do %>
+          <%= f.check_box :secret %>
+          <span>プライベート</span>
+        <% end %>
+        <p><small>プライベートをオンにすると、このグループに所属しているメンバーが非公開になります。</small></p>
+      </section>
+
+      <%= f.submit nil, class: 'btn' %>
+
+    </div><%# col %>
+
+    <div class="col-lg-6">
+
+      <label>オーナー</label>
+
+      <div class="window">
+
+        <p id="group-owner-select-button" class="btn btn-radius border">オーナーを選択</p>
+        
+      </div><%# window %>
+
+
+      <label>メンバー</label>
+
+      <div class="window">
+
+        <p id="group-member-select-button" class="btn btn-radius border">メンバーを選択</p>
+
+      </div><%# window %>
+
+    </div><%# col %>
+
+  </div><%# row %>
+
+
+  <div id="group-owners-select-area">
+
+    <div class="group-owner-select-heading row align-top">
+      <h1 class="col">グループのオーナーを選択する</h1>
+
+      <div class="group-owners-window-close-button col">
+        <div class="row-nocol just-end">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
         </div>
       </div>
 
-    <% end %>
+    </div>
+
+    <div class="group-owner-select-area row">
+      <%= collection_radio_buttons(:group, :user_id, User.where(state: true), :id, :name_id, checked: group.user_id) do |t| %>
+
+        <div class="col-lg-4">
+          <div class="group-owner-select-checkbox">
+            <%= t.label(class: 'radio') do %>
+              <%= t.radio_button %>
+              <span class="group-owner-name"><%= t.object.name %></span>
+              <span class="group-owner-slug">&#64;<%= t.text %></span>
+            <% end %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+
   </div>
 
-  <h2>メンバー選択</h2>
-  <div class="group-member-select-area row nopad">
-    <%= collection_check_boxes(:group, :user_ids, User.where(state: true), :id, :name_id, checked: group.user_ids) do |t| %>
+  <div id="group-members-select-area">
 
-      <div class="">
-        <div class="">
-          <%= t.label(class: 'checkbox') do %>
-            <%= t.check_box %>
-            <span class="user-name"><%= t.object.name %></span>
-            <span class="user-name-d"><%= t.text %></span>
-          <% end %>
+    <div class="group-member-select-heading row align-top">
+      <h1 class="col">グループのメンバーを選択する</h1>
+
+      <div class="group-members-window-close-button col">
+        <div class="row-nocol just-end">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
         </div>
       </div>
 
-    <% end %>
+    </div>
+
+    <div class="group-member-select-area row nopad">
+      <%= collection_check_boxes(:group, :user_ids, User.where(state: true), :id, :name_id, checked: group.user_ids) do |t| %>
+
+        <div class="col-lg-4">
+          <div class="group-member-select-checkbox">
+            <%= t.label(class: 'checkbox') do %>
+              <%= t.check_box %>
+              <span class="group-member-name"><%= t.object.name %></span>
+              <span class="group-member-slug">&#64;<%= t.text %></span>
+            <% end %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+
   </div>
 
 
-  <%= f.label :slug %>
-  <%= f.text_field :slug, class: 'form' %>
-
-  <%= f.label :name %>
-  <%= f.text_field :name, class: 'form' %>
-
-
-  <label>プライベート</label>
-  <section class="window form-group">
-    <%= f.label :secret, class: 'toggle' do %>
-      <%= f.check_box :secret %>
-      <span>プライベート</span>
-    <% end %>
-  </section>
-
-  <%= f.submit nil, class: 'btn' %>
 
 <% end %>

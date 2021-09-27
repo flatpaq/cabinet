@@ -37,7 +37,7 @@
         </div>
 
         <% if tag.user_id == current_user.id || tag.any? %>
-          <div class="tag-operation-area col-lg-auto">  
+          <div class="tag-operation-area col-lg-auto">
             <div class="row-nocol just-end-lg">
 
               <%= link_to(edit_tag_path(tag), class: 'edit') do %>

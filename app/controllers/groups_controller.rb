@@ -12,14 +12,14 @@ class GroupsController < ApplicationController
 
   def show
 
-    group = Group.find_by(slug: params[:id])
+    @group = Group.find_by(slug: params[:id])
 
-    # NOTE: 条件分岐をさせている意味がない?
-    unless group.secret?
-      @group = Group.includes(:users).find_by(slug: params[:id])
-    else
-      @group = group
-    end
+    # @group = Group.includes(:users, {users: {user_image_attachment: :blob}}).find_by(slug: params[:id])
+
+    @users = @group.users
+      .includes({user_image_attachment: :blob})
+      .order(name_id: :asc)
+      .page(params[:page])
 
   end
 

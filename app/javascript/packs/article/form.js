@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Article edit Historyをモーダルウィンドウで表示する
-
 const historyViewArea = document.querySelector('#history-view-area');
 let historyViewCloseButton;
 
@@ -150,6 +149,107 @@ document.addEventListener('DOMContentLoaded', function() {
     modalMenuClose(historyViewArea);
   });
 
+
+});
+
+
+// readable
+
+const reableLimitedButtons = document.querySelectorAll('.select-publish input');
+
+const readableUsersSelectButtons = document.querySelector('.readable-users-select-buttons');
+
+const readableUsersSelectButton = document.querySelector('#readable-users-select-button');
+const readableGroupsSelectButton = document.querySelector('#readable-groups-select-button');
+
+const readableUsersSelectArea =document.querySelector('#readable-users-select-area');
+const readableGroupsSelectArea =document.querySelector('#readable-groups-select-area');
+
+
+// writable
+
+const writableSelectedButtons = document.querySelectorAll('.select-editor input');
+
+const writableUsersSelectButtons = document.querySelector('.writable-users-select-buttons');
+
+const writableUsersSelectButton = document.querySelector('#writable-users-select-button');
+const writableGroupsSelectButton = document.querySelector('#writable-groups-select-button');
+
+const writableUsersSelectArea =document.querySelector('#writable-users-select-area');
+const writableGroupsSelectArea =document.querySelector('#writable-groups-select-area');
+
+// 閉じるボタン、readable writable共通
+const userAndGroupSelectCloseButtons = document.querySelectorAll('.users-window-close-button, .groups-window-close-button');
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  reableLimitedButtons.forEach((limitedButton) => {
+
+    if (limitedButton.checked && limitedButton.id == 'article_status_limited') {
+      readableUsersSelectButtons.classList.add('active');
+    }
+
+    limitedButton.addEventListener('click', (el) => {    
+      if (el.target.id === 'article_status_limited' ) {
+        readableUsersSelectButtons.classList.add('active');
+      } else {
+        readableUsersSelectButtons.classList.remove('active');
+      }
+    });
+  });
+
+  writableSelectedButtons.forEach((selectedButton) => {
+
+    if (selectedButton.checked && selectedButton.id == 'article_coedit_permit_selected') {
+      writableUsersSelectButtons.classList.add('active');
+    }
+
+    selectedButton.addEventListener('click', (el) => {
+      if (el.target.id === 'article_coedit_permit_selected' ) {
+        writableUsersSelectButtons.classList.add('active');
+      } else {
+        writableUsersSelectButtons.classList.remove('active');
+      }
+    });
+  });
+
+  readableUsersSelectButton.addEventListener('click', () => {
+    modalMenuOpen(readableUsersSelectArea);
+  });
+
+  readableGroupsSelectButton.addEventListener('click', () => {
+    modalMenuOpen(readableGroupsSelectArea);
+  });
+
+  writableUsersSelectButton.addEventListener('click', () => {
+    modalMenuOpen(writableUsersSelectArea);
+  });
+
+  writableGroupsSelectButton.addEventListener('click', () => {
+    modalMenuOpen(writableGroupsSelectArea);
+  });
+
+  articleFormShadowWrapper.addEventListener('click', () => {
+
+    modalMenuClose(readableUsersSelectArea);
+    modalMenuClose(readableGroupsSelectArea);
+
+    modalMenuClose(writableUsersSelectArea);
+    modalMenuClose(writableGroupsSelectArea);
+
+  });
+
+  userAndGroupSelectCloseButtons.forEach((el) => {
+    el.addEventListener('click', () => {
+
+      modalMenuClose(readableUsersSelectArea);
+      modalMenuClose(readableGroupsSelectArea);
+
+      modalMenuClose(writableUsersSelectArea);
+      modalMenuClose(writableGroupsSelectArea);
+
+    });
+  });
 
 });
 

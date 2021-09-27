@@ -28,14 +28,12 @@
       </div>
     <% end %>
 
-
     <div class="search-area col-lg-auto">
       <%# 検索 %>
       <%= render partial: 'search_form' %>
     </div>
 
   </div>
-
 
   <% if @users %>
     <% @users.each do |user| %>
@@ -80,7 +78,6 @@
           <% end %>
           </div>
 
-
           <div class="user-operation-area col-lg-auto">
             <div class="row-nocol just-end-lg">
               <% if user.id == current_user.id || current_user.admin? %>
@@ -119,15 +116,12 @@
 
         </div><%# user-head end %%>
 
-
         <div class="user-aside-area row align-top">
 
           <div class="user-introduction col-lg">
             <p><%= user.introduction %></p>
           </div>
 
-
-          
           <div class="user-type-area col-lg-auto">
           <div class="row-nocol">
             <% if ! user.state? %>
@@ -150,29 +144,12 @@
             <% end %>
           </div>
           </div><%# user-type-area end %>
-          
-        
-
-
 
         </div><%# user-aside-area end %>
 
-
-      
       </div>
 
     <% end %>
-
-
-
-
-
-
-
-
-
-
-
 
   <%= paginate @users %>
 
