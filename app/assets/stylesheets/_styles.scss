@@ -80,8 +80,12 @@
 }
 
 .login {
-  background: $background-color;
+  // background: $background-color;
   background: $border-color;
+  background: linear-gradient(to right, #0083B0, #00B4DB);
+  // background: linear-gradient(to right, #06beb6, #48b1bf); 
+
+
   input#session-email, input#session-password {
     background: $gray-color;
   }
@@ -686,11 +690,7 @@ ul.tags {
 }
 
 
-
-
-
 // Article show page
-
 
 .article-main-area {
   border-bottom: 1px solid $border-color;
@@ -706,6 +706,49 @@ ul.tags {
   }
 
 }
+
+
+// toc
+.toc-content ol {
+  list-style: none;
+  margin-bottom: 0px;
+  padding-left: 0px;
+}
+.toc-content ol li {
+  // padding-left: 24px;
+}
+.toc-content a.toc-link {
+  @include plain-link;
+  transition: none;
+  display: inline-block;
+  color: $primary-color;
+  color: #516680;
+  @include very-small-font-size;
+  // padding-left: 24px;
+}
+
+
+// h2
+.toc-content ol li a {
+  padding-left: 16px;
+}
+// h3
+.toc-content ol li + ol li a {
+  padding-left: 32px;
+}
+// h4
+.toc-content ol li + ol li + ol li a {
+  padding-left: 48px;
+}
+// h5
+.toc-content ol li + ol li + ol li + ol li a {
+  padding-left: 64px;
+}
+// h6
+.toc-content ol li + ol li + ol li + ol li + ol li a {
+  padding-left: 80px;
+}
+
 
 .toc-sidebar {
   background: $gray-color;
@@ -731,12 +774,13 @@ ul.tags {
       overflow-y: scroll;
       max-height: 100vh;  
     }
+
   }
 
   a.toc-link.active {
     color: $accent-color;
     font-weight: 700;
-    text-decoration: underline;
+    border-left: 2px solid $accent-color;
   }
 }
 
@@ -786,11 +830,7 @@ ul.tags {
     margin: 0px 0px 16px 12px;
   }
 
-
-
-
 }
-
 
 .liked_user_link a {
   @include plain-link;
@@ -820,22 +860,6 @@ ul.tags {
   }
 
 }
-
-// toc
-.toc-content ol {
-  list-style: none;
-  // padding-left: 0px;
-  margin-bottom: 0px;
-}
-.toc-content > ol {
-  padding-left: 0px;
-}
-.toc-content a.toc-link {
-  @include plain-link;
-  color: $primary-color;
-  color: #516680;
-}
-
 
 // History show
 .histories-area > h1 {
