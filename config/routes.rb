@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   # User
+  # Heroku用にUserの新規作成を行えないようにする
+  # resources :users, except: [:destroy, :new, :create, :edit, :update] do
   resources :users, except: [:destroy] do
 
     member do
