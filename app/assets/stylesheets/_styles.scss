@@ -378,8 +378,9 @@ header.mobile-header {
     padding: 12px 24px;
   }
   .mobile-user-menu a.logout {
-    background: $alert-color;
-    color: $white-color;
+    // background: $alert-color;
+    // color: $white-color;
+    color: $alert-color;
   }
 
   a {
