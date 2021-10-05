@@ -94,21 +94,39 @@
                 </div>
               </div>
             <% end %>
+
+          <% elsif @article.user.state === false && current_user.admin? %>
+
+            <%= link_to(@article.user) do %>
+
+              <div class="disable-user row-nocol align-middle">
+
+                <% if @article.user.user_image.attached? %>
+                  <%= image_tag @article.user.user_image, class: 'user-image-index' %>
+                <% else %>
+                  <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+                <% end %>
+
+                <div>
+                  <span class="user-name"><%= @article.user.name %></span>
+                  <span class="user-name-id">&#64;<%= @article.user.name_id %></span>
+                </div>
+              </div>
+
+            <% end %>
+
           <% else %>
 
             <div class="disable-user row-nocol align-middle">
-
-              <% if @article.user.user_image.attached? %>
-                <%= image_tag @article.user.user_image, class: 'user-image-index' %>
-              <% else %>
-                <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
-              <% end %>
-
+              
+              <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+              
               <div>
-                <span class="user-name"><%= @article.user.name %></span>
-                <span class="user-name-id">&#64;<%= @article.user.name_id %></span>
+                <span class="user-name">無効なユーザーです</span>
+                <span class="user-name-id"></span>
               </div>
             </div>
+
           <% end %>
         </div>
 

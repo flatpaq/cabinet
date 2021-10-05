@@ -1232,7 +1232,8 @@ ul.tags {
   // height: 240px;
   width: 100%;
   height: auto;
-  border-radius: 50%;
+  // border-radius: 50%;
+  @include radius-amount;
   display: block;
   object-fit: cover;
   background: $background-color;

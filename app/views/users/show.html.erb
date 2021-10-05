@@ -19,11 +19,13 @@
     <%# ユーザー情報 %> 
     <div class="user-profile-image col-md-3">
       
-      <% if @user.user_image.attached? %>
-        <%= image_tag @user.user_image, class: 'user-image-index' %>
-      <% else %>
-        <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
-      <% end %>
+      <div>
+        <% if @user.user_image.attached? %>
+          <%= image_tag @user.user_image, class: 'user-image-index' %>
+        <% else %>
+          <%= image_tag 'default-user-icon.svg', class: 'user-image-index' %>
+        <% end %>
+      </div>
           
     </div>
 
