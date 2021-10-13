@@ -20,6 +20,8 @@ class Tag < ApplicationRecord
     # selected: 2 # 編集者を選択する
   }
 
+  belongs_to :user
+
   has_many :tag_assignments, dependent: :destroy
   has_many :articles, through: :tag_assignments
   accepts_nested_attributes_for :tag_assignments, allow_destroy: true

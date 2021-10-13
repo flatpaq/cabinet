@@ -36,7 +36,7 @@ class TagsController < ApplicationController
   # end
 
   def create
-    @tag = Tag.new(tag_params)
+    @tag = current_user.tags.new(tag_params)
     if @tag.save
       redirect_to tags_url, notice: "#{@tag.label}タグを作成しました。"
     else
