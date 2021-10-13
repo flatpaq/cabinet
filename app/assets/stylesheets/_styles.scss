@@ -625,6 +625,12 @@ ul.tags {
     border-radius: 24px;
     color: $secondary-color;
     @include plain-link;
+
+    &:hover {
+      background: $accent-color;
+      color: $white-color;
+    }
+
   }
 
 }
