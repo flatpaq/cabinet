@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Markdownをツールバー付きのエディタで編集できる、社内向け情報共有ツールです。  
+バックエンドのシステムはRuby on Railsで開発しています。
 
-Things you may want to cover:
 
-* Ruby version
+詳しくはこちらをご覧ください。
 
-* System dependencies
+[Markdownをツールバー付きのエディタで編集できる、社内向け情報共有ツールを作りました](https://flatpaq.net/web/2021/09/02/cabinet-app-with-rails.html)
 
-* Configuration
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
