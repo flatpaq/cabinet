@@ -109,7 +109,7 @@
 
 
   <%# グループメンバーを表示する %>
-  <% if ! @group.secret? || current_user.id == @group.user_id || @users.exists?(user_id: current_user.id) || current_user.admin?  %>
+  <% if @group.secret == false || current_user.id == @group.user_id || @users.exists?(id: current_user.id) || current_user.admin?  %>
 
     <% if @users %>
       <% @users.each do |user| %>
