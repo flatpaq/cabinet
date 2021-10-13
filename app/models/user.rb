@@ -7,8 +7,11 @@ class User < ApplicationRecord
   validates :name_id, 
     presence: true, 
     uniqueness: { case_sensitive: false }, 
-    format: { with: /\A[a-z0-9]+\z/ }, 
-    length: { minimum: 1, maximum: 30 }
+    format: { with: /\A^[a-z][\-a-z0-9]+\z/, message: "の最初の文字は半角英字のみで、それ以降の文字には半角英数字とハイフンを使用することができます" }, 
+    length: { minimum: 1, maximum: 30 },
+    exclusion: { in: %w(new search),
+      message: "%{value}は予約済みです" }
+
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, uniqueness: true

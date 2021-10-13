@@ -7,11 +7,11 @@ class Article < ApplicationRecord
   validates :user_id, presence: true
   validates :permalink, 
     presence: true,
-    length: { minimum: 3, maximum: 100 },
+    length: { minimum: 3, maximum: 100, message: "の長さは3文字以上200文字以下で設定してください" },
     uniqueness: { case_sensitive: false },
-    format: { with: /\A^[a-z][\-a-z0-9]+\z/ },
+    format: { with: /\A^[a-z][\-a-z0-9]+\z/, message: "の最初の文字は半角英字のみで、それ以降の文字には半角英数字とハイフンを使用することができます" },
     exclusion: { in: %w(new deleted drafts search attach histories),
-      message: "%{value}は予約済みです" }
+      message: "%{value}は予約済みの文字列のため使用できません" }
     # allow_blank: true,
     # format: { with: /\A[a-z]{1}[a-z0-9]+\z/}
 
@@ -66,7 +66,7 @@ class Article < ApplicationRecord
   enum status: {
     closed: 0, #非公開,下書き
     opened: 1, #公開
-    limited: 2 #限定公開
+    limited: 2 #公開を限定する
   }
 
   enum coedit_permit: {

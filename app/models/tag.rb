@@ -5,8 +5,11 @@ class Tag < ApplicationRecord
   validates :slug,
     presence: true,
     uniqueness: { case_sensitive: false },
-    format: { with: /\A^[a-z][\-a-z0-9]+\z/ },
-    length: { minimum: 3, maximum: 30 }
+    format: { with: /\A^[a-z][\-a-z0-9]+\z/, message: "の最初の文字は半角英字のみで、それ以降の文字には半角英数字とハイフンを使用することができます" },
+    length: { minimum: 3, maximum: 30 },
+    exclusion: { in: %w(new add search),
+      message: "%{value}は予約済みの文字列のため使用できません" }
+
 
   validates :label, presence: true, length: { minimum: 3, maximum: 30 }
   validates :edit_permit, presence: true, inclusion: { in: %w(self any) }
