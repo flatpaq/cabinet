@@ -107,7 +107,8 @@ function activeBar() {
           elHeight[i] = elPosition[i+1] - elPosition[i];
 
           if(tocActiveEl[tocActiveEl.length - 1]) {
-            let footerEl = document.querySelector('.histories-area');
+            let footerEl = document.querySelector('footer');
+            // let footerEl = document.querySelector('.histories-area');
             let footerRect = footerEl.getBoundingClientRect().top;
             let footerPosition = footerRect + scrollAmount;
             elHeight[elHeight.length - 1] = footerPosition - elPosition[elPosition.length - 1];
