@@ -32,7 +32,7 @@
 
 </div>
 
-<% if @articles %>
+<% if @articles.exists? %>
 
   <% @articles.each do |article| %>
     
@@ -235,6 +235,12 @@
 
   <%# ページネーション %>
   <%= paginate @articles %>
+
+<% else %>
+
+  <div class="not-yet-created">
+    <p class="fixed-just-center-middle">記事はまだありません</p>
+  </div>
 
 <% end %>
 

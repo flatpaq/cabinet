@@ -26,7 +26,8 @@
   </div>
 
 
-  <% if @groups %>
+  <% if @groups.exists? %>
+
     <% @groups.each do |group| %>
 
       <div class="group-index">
@@ -84,6 +85,12 @@
     <% end %>
 
     <%= paginate @groups %>
+
+  <% else %>
+  
+    <div class="not-yet-created">
+      <p class="fixed-just-center-middle">グループはまだありません</p>
+    </div>
 
   <% end %>
 

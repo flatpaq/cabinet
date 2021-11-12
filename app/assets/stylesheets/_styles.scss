@@ -1384,3 +1384,8 @@ ul.tags {
 #group-members-select-area {
   @include select-window(group-member);
 }
+
+// タグやグループがまだ作られていない時のスタイル
+.not-yet-created {
+  position: relative;
+}
