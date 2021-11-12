@@ -54,25 +54,25 @@ class ArticlesController < ApplicationController
 
   def show
 
-    article = Article.find_by(permalink: params[:id])
+    article = Article.find_by!(permalink: params[:id])
   
     if article.user_id == current_user.id
 
       # 記事の著者がカレントユーザーなら、公開状態も削除されたかも関係なく閲覧できる
       @article = current_user.articles.includes(:tags, :histories, :likes)
-        .find_by(permalink: params[:id])
+        .find_by!(permalink: params[:id])
 
     elsif article.limited? \
       && current_user.article_readable?(article, current_user.id)
 
       # 記事が読み取りユーザーの限定をしており、記事がカレントユーザーに読み取り許可されている場合
       @article = Article.includes(:tags, :histories, :likes)
-        .find_by(permalink: params[:id], garbage: false)
+        .find_by!(permalink: params[:id], garbage: false)
 
     else
 
       @article = Article.includes(:tags, :histories, :likes)
-        .find_by(permalink: params[:id], status: 1, garbage: false)
+        .find_by!(permalink: params[:id], status: 1, garbage: false)
 
     end
 
