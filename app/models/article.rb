@@ -13,12 +13,9 @@ class Article < ApplicationRecord
     exclusion: { in: %w(new deleted drafts search attach histories),
       message: "%{value}は予約済みの文字列のため使用できません" }
     # allow_blank: true,
-    # format: { with: /\A[a-z]{1}[a-z0-9]+\z/}
-
 
   validates :status, presence: true, inclusion: { in: %w(closed opened limited) }
   validates :coedit_permit, presence: true, inclusion: { in: %w(self any selected) }
-  # validates :garbage, presence: true
 
   validates :title, length: { maximum: 200 }
 
@@ -27,7 +24,6 @@ class Article < ApplicationRecord
   has_many :tag_assignments, dependent: :destroy
   has_many :tags, through: :tag_assignments
   accepts_nested_attributes_for :tag_assignments, allow_destroy: true
-  # accepts_nested_attributes_for :tags
 
   # likes UserとArticleの多対多の関連付け
   has_many :likes, dependent: :destroy
@@ -35,7 +31,6 @@ class Article < ApplicationRecord
 
   # histories ArticleとHistoryの一対多の関連付け
   has_many :histories
-
 
   # ReadableArticleUserAssignment 記事の表示権限をユーザーごとに設定する
   # ArticleとUserを関連付ける
@@ -49,7 +44,6 @@ class Article < ApplicationRecord
   has_many :readable_article_groups, through: :readable_article_group_assignments, source: :group
   accepts_nested_attributes_for :readable_article_group_assignments, allow_destroy: true
 
-
   # WritableArticleUserAssignment 記事の編集権限をユーザーごとに設定する
   # ArticleとUserを関連付ける
   has_many :writable_article_user_assignments, dependent: :destroy
@@ -61,7 +55,6 @@ class Article < ApplicationRecord
   has_many :writable_article_group_assignments, dependent: :destroy
   has_many :writable_article_groups, through: :writable_article_group_assignments, source: :group
   accepts_nested_attributes_for :writable_article_group_assignments, allow_destroy: true
-
 
   enum status: {
     closed: 0, #非公開,下書き
