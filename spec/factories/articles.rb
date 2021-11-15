@@ -13,15 +13,36 @@ FactoryBot.define do
   end
 
   # factory :article do
-  factory :artilce1, class: Article do
-    title { 'テスト記事1' }
-    content { 'テスト記事1のコンテンツです。'}
-    permalink { 'test-article1' }
+  factory :article_closed, class: Article do
+    title { 'テスト記事1下書き' }
+    content { 'テスト記事1下書きのコンテンツです。'}
+    permalink { 'test-article1-closed' }
+    status { 0 }
+    coedit_permit { 0 }
+    garbage { false }
+    association :user, factory: :test_user1
+  end
+
+  factory :article_opened, class: Article do
+    title { 'テスト記事2公開' }
+    content { 'テスト記事2公開のコンテンツです。'}
+    permalink { 'test-article2-opened' }
     status { 1 }
     coedit_permit { 0 }
     garbage { false }
-    # user
-    association :user, factory: :test_user1
+    association :user, factory: :test_user2
   end
+
+  factory :article_limited_user, class: Article do
+    title { 'テスト記事3限定公開' }
+    content { 'テスト記事3限定公開のコンテンツです。'}
+    permalink { 'test-article3-limited' }
+    status { 2 }
+    coedit_permit { 0 }
+    garbage { false }
+    association :user, factory: :test_user3
+  end
+
+
 
 end
