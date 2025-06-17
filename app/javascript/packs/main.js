@@ -14,13 +14,13 @@ import Rails from '@rails/ujs';
 import "inline-attachment/src/inline-attachment";
 import "inline-attachment/src/codemirror-4.inline-attachment";
 
-// import simpleMDE
-import SimpleMDE from 'simplemde';
-import 'simplemde/dist/simplemde.min.css';
+// import easyMDE
+import EasyMDE from 'easymde';
+import 'easymde/dist/easymde.min.css';
 
 window.onload = function() {
 
-  const simplemde = new SimpleMDE({
+  const easymde = new EasyMDE({
     element: document.querySelector('.mde'),
     insertTexts: {
       // horizontalRule: ["", "\n\n-----\n\n"],
@@ -48,7 +48,7 @@ window.onload = function() {
   });
 
   // エディタに画像がドラッグ&ドロップされた際の処理
-  inlineAttachment.editors.codemirror4.attach(simplemde.codemirror, {
+  inlineAttachment.editors.codemirror4.attach(easymde.codemirror, {
     uploadUrl: "/articles/attach", // POSTする宛先Url
     uploadFieldName: "image", // ファイルのフィールド名(paramsで取り出す時のkey)
     allowedTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'],
@@ -67,9 +67,10 @@ window.onload = function() {
 // Article Showでの表示
 
 // import Marked
-import marked from 'marked';
+// import marked from 'marked';
+import { marked } from 'marked';
 
-// Preview Markdown to HTML with SimpleMde PreviewRender mode
+// Preview Markdown to HTML with EasyMde PreviewRender mode
 marked.setOptions({
   // renderer: new marked.Renderer(),
   // highlight: function(code, language) {
