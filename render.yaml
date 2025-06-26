@@ -1,0 +1,22 @@
+databases:
+  - name: cabinet
+    databaseName: cabinet
+    user: Yuki
+    plan: free
+
+services:
+  - type: web
+    name: cabinet
+    runtime: ruby
+    plan: free
+    buildCommand: './bin/render-build.sh'
+    startCommand: 'bundle exec rails server'
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cabinet
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2
