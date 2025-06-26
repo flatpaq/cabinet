@@ -1,7 +1,7 @@
 databases:
   - name: cabinet
     databaseName: cabinet
-    user: Yuki
+    user: cabinet
     plan: free
 
 services:
