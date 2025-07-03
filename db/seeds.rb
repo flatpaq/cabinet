@@ -58,16 +58,16 @@ Article.create!(
 
 下記のように他の記事ページへのリンクを貼ることができます。
 
-- [Sassの記法まとめ](https://flatpaq-cabinet-sample.herokuapp.com/articles/sass-basic/)
-- [CrontabでLet's Encryptの証明書を自動で更新する](https://flatpaq-cabinet-sample.herokuapp.com/articles/edit-crontab)
--  [ひとまず始めるTypescript](https://flatpaq-cabinet-sample.herokuapp.com/articles/getting-started-with-typescript)
-- [Vue.jsでアコーディオンを作る](https://flatpaq-cabinet-sample.herokuapp.com/articles/vue-accordion)
+- [Sassの記法まとめ](https://cabinet-e7y7.onrender.com/articles/sass-basic/)
+- [CrontabでLet's Encryptの証明書を自動で更新する](https://cabinet-e7y7.onrender.com/articles/edit-crontab)
+-  [ひとまず始めるTypescript](https://cabinet-e7y7.onrender.com/articles/getting-started-with-typescript)
+- [Vue.jsでアコーディオンを作る](https://cabinet-e7y7.onrender.com/articles/vue-accordion)
 
 ### Markdownの書き方
 
 Markdownの書き方については下記の記事をご覧ください。
 
-[ブログやドキュメントの作成に便利なMarkdownの書き方](https://flatpaq-cabinet-sample.herokuapp.com/articles/markdown/)
+[ブログやドキュメントの作成に便利なMarkdownの書き方](https://cabinet-e7y7.onrender.com/articles/markdown/)
 
       ",
       status: 1,
