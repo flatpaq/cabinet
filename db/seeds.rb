@@ -6,14 +6,13 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
 User.create!(
-  name_id: "administrator",
-  name: "管理者",
-  email: "admin1@sample.com",
-  password: "Xdoe95kLEFdio38Z",
-  password_confirmation: "Xdoe95kLEFdio38Z",
-  introduction: "管理者",
+  name_id: 'administrator',
+  name: '管理者',
+  email: 'admin1@sample.com',
+  password: 'password',
+  password_confirmation: 'password',
+  introduction: '管理者',
   admin: true,
   state: true,
   indication: false
@@ -24,8 +23,8 @@ User.create!(
     name_id: "user#{n + 1}",
     name: "ユーザー#{n + 1}",
     email: "user#{n + 1}@sample.com",
-    password: "password",
-    password_confirmation: "password",
+    password: 'password',
+    password_confirmation: 'password',
     introduction: "ユーザ#{n + 1}です",
     admin: false,
     state: true,
@@ -34,7 +33,6 @@ User.create!(
 end
 
 Article.create!(
-
   [
 
     # {
@@ -50,7 +48,7 @@ Article.create!(
     {
       # ウェルカムページをちゃんと書く
       user_id: 1,
-      title: "トップページ",
+      title: 'トップページ',
       content: "
 
 # ようこそ
@@ -77,20 +75,19 @@ Markdownの書き方については下記の記事をご覧ください。
       garbage: false
     },
 
-
     {
       # 通常のページ
       user_id: 2,
-      title: "Markdownの基本的な書き方",
+      title: 'Markdownの基本的な書き方',
       content: "
 
-> Markdown(マークダウン)は、文書を記述するための軽量マークアップ言語のひとつである。本来はプレーンテキスト形式で手軽に書いた文書からHTMLを生成するために開発されたものである。  
-> 
+> Markdown(マークダウン)は、文書を記述するための軽量マークアップ言語のひとつである。本来はプレーンテキスト形式で手軽に書いた文書からHTMLを生成するために開発されたものである。
+>
 > [Wikipedia](https://ja.wikipedia.org/wiki/Markdown)
 
-HTMLは文書データとしてユニバーサルな規格のひとつであり、WebページやWebアプリの開発だけでなく、ブログ記事を書くことにも利用されますが、記事を書く際にHTMLタグを挿入していくのはなかなか面倒だと思います。    
+HTMLは文書データとしてユニバーサルな規格のひとつであり、WebページやWebアプリの開発だけでなく、ブログ記事を書くことにも利用されますが、記事を書く際にHTMLタグを挿入していくのはなかなか面倒だと思います。
 
-**Markdown記法は、簡易な記述方法でHTML要素を表現できるため、ドキュメントの作成において非常に便利です。**   
+**Markdown記法は、簡易な記述方法でHTML要素を表現できるため、ドキュメントの作成において非常に便利です。**
 以下にMarkdownの書き方をまとめます。
 
 ----
@@ -118,7 +115,7 @@ HTMLは文書データとしてユニバーサルな規格のひとつであり�
 
 ## リンク
 
-リンクは`[リンクテキスト](リンクのURL)`で使用できます。  
+リンクは`[リンクテキスト](リンクのURL)`で使用できます。
 
 ```md
 [Google](https://www.google.co.jp/)
@@ -130,7 +127,7 @@ HTMLは文書データとしてユニバーサルな規格のひとつであり�
 
 画像はエディタのエリア内にドラッグ&ドロップすることで貼り付けることができます。
 
-画像は`![画像の代替テキスト](ファイルパス/ファイル名.拡張子)`で表記されます。  
+画像は`![画像の代替テキスト](ファイルパス/ファイル名.拡張子)`で表記されます。
 
 ## テーブル
 
@@ -142,9 +139,9 @@ HTMLは文書データとしてユニバーサルな規格のひとつであり�
 | PHP     | Webアプリ開発に特化   |
 ```
 
-`|`記号で列(column)を区切ります。  
-また、`-`記号を並べて、区切った上の行をテーブルの見出しとして表現します。区切り行には、`-`や`半角スペース`はいくつ挿入されていても表示に影響はありません。  
-`-`の隣に付いているコロン(`:`)は、左側のみに記述すると、その列のデータが左揃え表記になり、右側のみに記述すると右揃えになります。  
+`|`記号で列(column)を区切ります。
+また、`-`記号を並べて、区切った上の行をテーブルの見出しとして表現します。区切り行には、`-`や`半角スペース`はいくつ挿入されていても表示に影響はありません。
+`-`の隣に付いているコロン(`:`)は、左側のみに記述すると、その列のデータが左揃え表記になり、右側のみに記述すると右揃えになります。
 両側に記述すると中央揃えになります。
 
 上記の例の出力結果は下のようになります。
@@ -190,9 +187,9 @@ function mobileMenu() {
 ```
 
 `ctrl` + `shift` + `alt`
-      
+
       ",
-      permalink: "markdown",
+      permalink: 'markdown',
       status: 1,
       coedit_permit: 0,
       garbage: false
@@ -200,7 +197,7 @@ function mobileMenu() {
 
     {
       user_id: 3,
-      title: "Sassの記法まとめ",
+      title: 'Sassの記法まとめ',
       content: "
 
 ## はじめに
@@ -233,13 +230,13 @@ SassはCSS言語の拡張言語です。以下のような特徴があります�
 
 CSSにも`@import`文がありますが、Sass独自の*インポート機能*は*パーシャル*と組み合わせて利用することで、CSS変換後のファイルをひとつにまとめることができます。
 
-まず、*パーシャル(partial)*とは、**scssファイル名の先頭にアンダーバー(`_`)をつけることで、そのファイルをCSSに変換しないようにする**機能です。  
+まず、*パーシャル(partial)*とは、**scssファイル名の先頭にアンダーバー(`_`)をつけることで、そのファイルをCSSに変換しないようにする**機能です。
 `_basic.scss`のように書きます。
 
 パーシャルとして書いた`_basic.scss`はCSSに変換されないため、このままでは書いたスタイルは反映されませんが、`@import`機能を使用することで、**他のSassファイルに取り込まれ、ひとつのファイルにまとめること**ができます。
 
 
-例として、`_reset.scss`、`_basic.scss`の二つのパーシャルファイルを`main.scss`にまとめる際は下記のように記述します。  
+例として、`_reset.scss`、`_basic.scss`の二つのパーシャルファイルを`main.scss`にまとめる際は下記のように記述します。
 先頭の`_`や`.scss`拡張子を省略して記述します。
 
 
@@ -254,7 +251,7 @@ CSSにも`@import`文がありますが、Sass独自の*インポート機能*�
 
 <h1>インポートのネスト</h1>
 
-`@import`はネストして使うことができます。(ネストの詳しい説明は`ネスト`の項をご覧下さい。) 
+`@import`はネストして使うことができます。(ネストの詳しい説明は`ネスト`の項をご覧下さい。)
 
 ```scss
 .old-page {
@@ -280,7 +277,7 @@ CSSにも`@import`文がありますが、Sass独自の*インポート機能*�
 
 ### コメント
 
-Sassファイルには、CSS従来のコメント文だけでなく、一行コメントの`//`が使えます。  
+Sassファイルには、CSS従来のコメント文だけでなく、一行コメントの`//`が使えます。
 
 ```scss
 /* CSS従来のコメント文 */
@@ -298,7 +295,7 @@ SassのコメントはCSS変換時に削除されます。CSSの従来のコメ�
 $変数名: 値;
 ```
 
-上記のように**先頭に`$`をつけて記述することで、変数を宣言する**ことができます。 
+上記のように**先頭に`$`をつけて記述することで、変数を宣言する**ことができます。
 CSSのプロパティと値を定義するような形式で記述することで、値を変数に代入できます。
 
 例えば下記の変数`$white-color`は下記のように利用することができます。
@@ -316,7 +313,7 @@ $white-color: #fff;
 
 #### 変数の命名規則
 
-変数名はCSSのClassやID名と同様に命名規則があります。  
+変数名はCSSのClassやID名と同様に命名規則があります。
 
 - 半角英数字の他にハイフン(`-`)やアンダーバー(`_`)を使用できる
 - 日本語などのマルチバイト文字が利用できる
@@ -326,7 +323,7 @@ $white-color: #fff;
 
 #### 変数のスコープ
 
-変数にはスコープ(適用できる範囲)があります。  
+変数にはスコープ(適用できる範囲)があります。
 セレクタ内の波括弧(`{}`)で囲んだ中、つまりCSSルールセット内に変数が宣言されていた場合、その変数はその波括弧の外側では参照することができません。
 
 ```scss
@@ -351,24 +348,22 @@ $accent-color: #4c9aee;
 @import \"variable\";
 @import \"reset\";
 @import \"basic\";
-```     
-         
+```
+
       ",
-      permalink: "sass-basic",
+      permalink: 'sass-basic',
       status: 1,
       coedit_permit: 0,
       garbage: false
     },
 
-
-
     {
       user_id: 4,
       title: "CrontabでLet's Encryptの証明書を自動で更新する",
       content: "
-  
-指定したコマンドを定期実行できるcrontabの使い方をメモします。  
-また備忘録として、Let’s Encryptの証明書を自動で更新できるように設定したものを掲載します。  
+
+指定したコマンドを定期実行できるcrontabの使い方をメモします。
+また備忘録として、Let’s Encryptの証明書を自動で更新できるように設定したものを掲載します。
 
 ## 準備
 
@@ -389,9 +384,9 @@ crontabは、5つのアスタリスクとコマンド文で構成されます。
 ```
 
 
-5つのアスタリスクは数値に変更できます。  
-左から順に、分(0-59)、時(0-23)、日(1-31)、月(1-12)、曜日(0-7、0と7は日曜)を入力することができます。  
-括弧の中の数値が、指定できる数値の範囲となっています。  
+5つのアスタリスクは数値に変更できます。
+左から順に、分(0-59)、時(0-23)、日(1-31)、月(1-12)、曜日(0-7、0と7は日曜)を入力することができます。
+括弧の中の数値が、指定できる数値の範囲となっています。
 
 また、*/1のようにすると「1分間隔」のように間隔を指定することもできます。
 
@@ -399,7 +394,7 @@ crontabは、5つのアスタリスクとコマンド文で構成されます。
 
 cretbotはインストール済みで、firewall等の設定は終わっているものとします。
 
-下記の指定の場合、毎日午前3時にcertbotコマンドで更新をかけています。  
+下記の指定の場合、毎日午前3時にcertbotコマンドで更新をかけています。
 また、更新を反映させるためhttpdサービスを再起動するように設定しています。
 
 ```
@@ -423,7 +418,7 @@ certbot renew --force-renew
 ```
 
       ",
-      permalink: "edit-crontab",
+      permalink: 'edit-crontab',
       status: 1,
       coedit_permit: 1,
       garbage: false
@@ -431,7 +426,7 @@ certbot renew --force-renew
 
     {
       user_id: 5,
-      title: "Vue.jsでアコーディオンを作る",
+      title: 'Vue.jsでアコーディオンを作る',
       content: "
 Vue.jsでアコーディオンを作った際のメモです。
 
@@ -497,7 +492,7 @@ h1 {
   transform: translateY(-50%) rotate(0deg);
   right: 16px;
   transition: 0.2s ease-in-out;
-}    
+}
 .accordion-content-wrapper {
   overflow: hidden;
   transition: 0.2s ease-in-out;
@@ -537,7 +532,7 @@ Vue.component('accordion', {
         </div>
 
       </transition>
-      
+
     </div>
     `,
 
@@ -569,9 +564,9 @@ new Vue({
   el: '#app'
 });
 ```
-      
+
       ",
-      permalink: "vue-accordion",
+      permalink: 'vue-accordion',
       status: 1,
       coedit_permit: 0,
       garbage: false
@@ -579,13 +574,13 @@ new Vue({
 
     {
       user_id: 6,
-      title: "ひとまず始めるTypescript",
+      title: 'ひとまず始めるTypescript',
       content: "
 
 ## 基本型 number、string、boolean
 
-変数にデータ型を定義する場合は、変数宣言の際に`let 変数名: データ型 = 値;`と記述します。  
-これを**型注釈(Type Annotation)**と呼びます。  
+変数にデータ型を定義する場合は、変数宣言の際に`let 変数名: データ型 = 値;`と記述します。
+これを**型注釈(Type Annotation)**と呼びます。
 定数`const`の際も同じように`const 変数名: データ型 = 値;`と書きます。
 
 基本のデータ型は真偽値、数値、文字列の3種類です。
@@ -709,7 +704,7 @@ function 関数名(引数: データ型): void {
 
 ```ts
 let animal = {
-  id: 1, 
+  id: 1,
   name: \"きりん\"
 }
 ```
@@ -725,7 +720,7 @@ function printName(animal: {id: number, name: string}) {
 
 // 先ほどのオブジェクト
 let animal = {
-  id: 1, 
+  id: 1,
   name: \"きりん\"
 };
 
@@ -735,15 +730,15 @@ printName(animal);
 // きりん
 ```
 
-上記のコードでは、引数の定義部分で`animal`オブジェクトの型注釈を行なっています。  
-オブジェクトの規模によりますが、引数の定義部分にプロパティとデータ型をひとつずつ書いていくのはなかなか面倒ですし、何より可読性が悪くなってしまいます。  
+上記のコードでは、引数の定義部分で`animal`オブジェクトの型注釈を行なっています。
+オブジェクトの規模によりますが、引数の定義部分にプロパティとデータ型をひとつずつ書いていくのはなかなか面倒ですし、何より可読性が悪くなってしまいます。
 そこで*インターフェース*を利用してオブジェクトの型を定義してみます。
 
 ## インターフェース
 
-インターフェースは、オブジェクトやクラスの構造自体の定義をするための機能です。インターフェースには、プロパティやメソッド、それぞれのデータ型を記述しますが、具体的な処理を持つことはできません。  
+インターフェースは、オブジェクトやクラスの構造自体の定義をするための機能です。インターフェースには、プロパティやメソッド、それぞれのデータ型を記述しますが、具体的な処理を持つことはできません。
 
-なぜこのような機能があるかというと、インターフェースには、インターフェースをクラスやオブジェクトに適用(実装)する場合は、インターフェースに定義したプロパティやメソッドをすべて用意しないとエラーになるという特徴があるためです。インターフェースは構造を保証することで、クラスやオブジェクトをより安全に利用するための機能といえます。  
+なぜこのような機能があるかというと、インターフェースには、インターフェースをクラスやオブジェクトに適用(実装)する場合は、インターフェースに定義したプロパティやメソッドをすべて用意しないとエラーになるという特徴があるためです。インターフェースは構造を保証することで、クラスやオブジェクトをより安全に利用するための機能といえます。
 
 インターフェースは下記のように記述します。インターフェース名は`UpperCamelケース`で命名します。
 
@@ -766,7 +761,7 @@ interface AnimalInterface {
 }
 ```
 
-では、インターフェースを利用したオブジェクトの型注釈を見てみます。  
+では、インターフェースを利用したオブジェクトの型注釈を見てみます。
 
 ```ts
 // インターフェースの定義
@@ -783,7 +778,7 @@ function printName(animal: AnimalInterface) {
 
 // animalオブジェクト
 let animal = {
-  id: 1, 
+  id: 1,
   name: \"きりん\"
 };
 
@@ -799,22 +794,19 @@ printName(animal);
 
 ```ts
 let animal: AnimalInterface = {
-  id: 1, 
+  id: 1,
   name: \"きりん\"
 };
 ```
 
       ",
-      permalink: "getting-started-with-typescript",
+      permalink: 'getting-started-with-typescript',
       status: 1,
       coedit_permit: 0,
       garbage: false
     }
 
-
-
   ]
-
 )
 
 # User.all.each_with_index do |user, n|
@@ -827,7 +819,6 @@ let animal: AnimalInterface = {
 #     garbage: false
 #   )
 # end
-
 
 # Tag.create!(
 #   [
@@ -852,16 +843,16 @@ let animal: AnimalInterface = {
 # TagAssignment.create!(
 #   [
 #     {
-#       article_id: 1, 
+#       article_id: 1,
 #       tag_id: 1
 #     },
 #     {
-#       article_id: 2, 
+#       article_id: 2,
 #       tag_id: 2
 #     },
 #     {
-#       article_id: 3, 
+#       article_id: 3,
 #       tag_id: 3
-#     },  
+#     },
 #   ]
 # )
