@@ -11,8 +11,5 @@ bundle exec rails assets:clean
 # Uncomment the following line:
 bundle exec rails db:migrate
 
-# bundle exec rails db:drop
-# bundle exec rails db:create
-
-DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:migrate:reset
-bundle exec rails db:seed
+# DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:migrate:reset
+# bundle exec rails db:seed
