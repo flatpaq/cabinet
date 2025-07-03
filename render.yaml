@@ -10,7 +10,7 @@ services:
     runtime: ruby
     plan: free
     buildCommand: './bin/render-build.sh'
-    startCommand: 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rails db:migrate:reset && bundle exec rails db:seed && bundle exec rails server'
+    startCommand: 'bundle exec rails server'
     envVars:
       - key: DATABASE_URL
         fromDatabase:
